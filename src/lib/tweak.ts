@@ -27,11 +27,15 @@ export type SelectConfig = {
 
 export type ConfigSchema = CheckboxConfig | SliderConfig | SelectConfig;
 
+export type TweakIcon =
+	| { kind: 'emoji'; value: string }
+	| { kind: 'image'; src: string; alt?: string };
+
 export interface TweakDef {
 	id: TweakId;
 	name: string;
 	description: string;
-	icon: string;
+	icon: TweakIcon;
 	group: GroupId;
 	configs?: Record<string, ConfigSchema>;
 	incompatibleWith?: TweakId[];

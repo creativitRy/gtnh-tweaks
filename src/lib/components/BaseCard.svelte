@@ -1,5 +1,6 @@
 <script lang="ts">
-	export let icon: string;
+	import type { TweakIcon } from '$lib/tweak';
+	export let icon: TweakIcon;
 	export let name: string;
 	export let description: string = '';
 	export let sgState: boolean | undefined = undefined;
@@ -17,21 +18,31 @@
 	{...$$restProps}
 	on:click
 >
-	<div class="header">
-		<span class="icon">{icon}</span>
-		<h3>
-			{name}
-			{#if hasConfigs}
-				<span class="cfg-icon" title="Has configuration">⚙️</span>
+	<div class="summary">
+		<div class="icon-col">
+			{#if icon.kind === 'image'}
+				<img class="icon-img" alt={icon.alt || ''} src={icon.src} />
+			{:else}
+				<span class="icon-emoji">{icon.value}</span>
 			{/if}
-		</h3>
-		<span class="sg-badge" data-status={sgStateDisplay}>SG: {sgStateDisplay}</span>
-		<slot name="header-actions" />
-	</div>
+		</div>
+		<div class="text-col">
+			<div class="header">
+				<h3>
+					{name}
+					{#if hasConfigs}
+						<span class="cfg-icon" title="Has configuration">⚙️</span>
+					{/if}
+				</h3>
+				<span class="sg-badge" data-status={sgStateDisplay}>SG: {sgStateDisplay}</span>
+				<slot name="header-actions" />
+			</div>
 
-	{#if description}
-		<p class="desc">{description}</p>
-	{/if}
+			{#if description}
+				<p class="desc">{description}</p>
+			{/if}
+		</div>
+	</div>
 
 	<slot />
 
@@ -57,15 +68,38 @@
 			@include mixins.card-accent(var(--success));
 		}
 
+		.summary {
+			display: grid;
+			grid-template-columns: auto 1fr;
+			gap: 0.8rem;
+			align-items: stretch;
+		}
+
+		.icon-col {
+			width: 3rem;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+		}
+
+		.icon-img {
+			height: 100%;
+			width: 100%;
+			object-fit: contain;
+			object-position: right center;
+		}
+
+		.icon-emoji {
+			font-size: 2rem;
+			line-height: 1;
+		}
+
 		.header {
 			@include mixins.card-header;
 
 			h3 {
 				margin: 0;
 				flex-grow: 1;
-			}
-			.icon {
-				font-size: 1.5rem;
 			}
 
 			.sg-badge {

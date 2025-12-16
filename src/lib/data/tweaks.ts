@@ -5,7 +5,7 @@ export const TWEAKS: TweakDef[] = [
 		id: 'fast_render',
 		name: 'Fast Render',
 		description: 'Optimizes rendering pipeline. Incompatible with Shader Core.',
-		icon: '⚡',
+		icon: { kind: 'emoji', value: '⚡' },
 		group: 'Graphics',
 		incompatibleWith: ['shader_core'],
 		configs: {
@@ -18,7 +18,7 @@ export const TWEAKS: TweakDef[] = [
 		id: 'shader_core',
 		name: 'Shader Core',
 		description: 'Enables advanced shaders. Heavy on performance.',
-		icon: '🌈',
+		icon: { kind: 'emoji', value: '🌈' },
 		group: 'Graphics',
 		supportedVersions: (v) => v === '2.7.0', // Only new versions
 		stargateState: true
@@ -27,7 +27,7 @@ export const TWEAKS: TweakDef[] = [
 		id: 'ez_recipes',
 		name: 'Easy Recipes',
 		description: 'Simplifies recipes for casual play.',
-		icon: '🍰',
+		icon: { kind: 'emoji', value: '🍰' },
 		group: 'QoL',
 		configs: {
 			mode: {
@@ -44,7 +44,7 @@ export const TWEAKS: TweakDef[] = [
 		id: 'flight_tweak',
 		name: 'Creative Flight',
 		description: 'Allows flight in survival based on config.',
-		icon: '🕊️',
+		icon: { kind: 'emoji', value: '🕊️' },
 		group: 'Fun',
 		configs: {
 			allowInDungeons: { type: 'checkbox', label: 'Allow in Dungeons', default: false }
