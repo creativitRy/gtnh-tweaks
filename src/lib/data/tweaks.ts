@@ -12,7 +12,8 @@ export const TWEAKS: TweakDef[] = [
 			level: { type: 'slider', label: 'Optimization Level', min: 1, max: 5, default: 3 }
 		},
 		supportedVersions: () => true,
-		stargateState: true
+		stargateState: true,
+		onDownload: (config, downloadCtx) => {}
 	},
 	{
 		id: 'shader_core',
@@ -21,7 +22,8 @@ export const TWEAKS: TweakDef[] = [
 		icon: { kind: 'emoji', value: '🌈' },
 		group: 'Graphics',
 		supportedVersions: (v) => v === '2.7.0', // Only new versions
-		stargateState: true
+		stargateState: true,
+		onDownload: (config, downloadCtx) => {}
 	},
 	{
 		id: 'ez_recipes',
@@ -38,7 +40,8 @@ export const TWEAKS: TweakDef[] = [
 			}
 		},
 		supportedVersions: () => true,
-		stargateState: false
+		stargateState: false,
+		onDownload: (config, downloadCtx) => {}
 	},
 	{
 		id: 'flight_tweak',
@@ -51,6 +54,9 @@ export const TWEAKS: TweakDef[] = [
 		},
 		supportedVersions: () => true,
 		// Dynamic Stargate Rule
-		stargateState: (cfg) => !cfg.allowInDungeons
+		stargateState: (cfg) => !cfg.allowInDungeons,
+		onDownload: (config, downloadCtx) => {}
 	}
 ];
+
+export const ALL_TWEAKS = new Map(TWEAKS.map((t) => [t.id, t]));

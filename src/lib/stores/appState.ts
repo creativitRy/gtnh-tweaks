@@ -1,9 +1,17 @@
-import { writable, derived, get } from 'svelte/store';
-import { TWEAKS } from '$lib/data/tweaks';
+import { derived, get, writable } from 'svelte/store';
+import { ALL_TWEAKS } from '$lib/data/tweaks';
 import { GTNH_VERSIONS } from '$lib/data/versions';
-import type { SelectedTweaksMap, TweakId, TweakDef, TweakConfig, ConfigValue } from '$lib/tweak';
+import {
+	type ConfigValue,
+	DownloadContext,
+	type SelectedTweaksMap,
+	type TweakConfig,
+	type TweakDef,
+	type TweakId
+} from '$lib/tweak';
 import LZString from 'lz-string';
 import { browser } from '$app/environment';
+import { saveAs } from 'file-saver';
 import { replaceState } from '$app/navigation';
 import { tick } from 'svelte';
 
@@ -13,13 +21,14 @@ export const selections = writable<SelectedTweaksMap>({});
 export const presetName = writable<string>('custom');
 
 export const availableTweaks = derived(selectedVersion, ($ver) => {
-	return TWEAKS.filter((t) => t.supportedVersions($ver));
+	return ALL_TWEAKS.values().filter((t) => t.supportedVersions($ver));
 });
 
 export const tweaksByGroup = derived(availableTweaks, ($tweaks) => {
 	const groups: Record<string, TweakDef[]> = {};
-	$tweaks.sort((a, b) => a.name.localeCompare(b.name));
-	$tweaks.forEach((t) => {
+	const sortedTweaks = [...$tweaks];
+	sortedTweaks.sort((a, b) => a.name.localeCompare(b.name));
+	sortedTweaks.forEach((t) => {
 		if (!groups[t.group]) groups[t.group] = [];
 		groups[t.group].push(t);
 	});
@@ -34,7 +43,7 @@ export const validationState = derived(
 
 		selectedIds.forEach((id) => {
 			errors[id] = [];
-			const tweak = TWEAKS.find((t) => t.id === id);
+			const tweak = ALL_TWEAKS.get(id);
 			if (!tweak) return;
 
 			const config = $sel[id];
@@ -46,7 +55,7 @@ export const validationState = derived(
 			if (tweak.incompatibleWith) {
 				tweak.incompatibleWith.forEach((badId) => {
 					if ($sel[badId]) {
-						const badName = TWEAKS.find((t) => t.id === badId)?.name || badId;
+						const badName = ALL_TWEAKS.get(badId)?.name || badId;
 						errors[id].push(`Incompatible with ${badName}`);
 					}
 				});
@@ -72,7 +81,7 @@ export function toggleTweak(id: TweakId) {
 			delete rest[id];
 			return rest;
 		} else {
-			const tweak = TWEAKS.find((t) => t.id === id);
+			const tweak = ALL_TWEAKS.get(id);
 			const defaults: TweakConfig = {};
 			if (tweak?.configs) {
 				Object.entries(tweak.configs).forEach(([key, schema]) => {
@@ -131,5 +140,20 @@ export function loadFromUrl() {
 		} catch (e) {
 			console.error('Failed to parse URL state', e);
 		}
+	}
+}
+
+export async function download(version: string, selections: SelectedTweaksMap) {
+	const downloadCtx = new DownloadContext(version, selections, ALL_TWEAKS);
+	try {
+		for (const id of Object.keys(selections)) {
+			const tweak = ALL_TWEAKS.get(id)!;
+			tweak.onDownload(selections[id], downloadCtx);
+		}
+
+		const blob = await downloadCtx.generate();
+		saveAs(blob, 'gtnh-tweaks.zip');
+	} catch (e) {
+		alert('Failed to generate download: ' + e);
 	}
 }

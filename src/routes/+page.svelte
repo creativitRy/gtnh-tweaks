@@ -1,20 +1,21 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import {
-		selectedVersion,
-		tweaksByGroup,
-		selections,
-		toggleTweak,
+		download,
 		loadFromUrl,
+		selectedVersion,
+		selections,
 		stargateFilter,
-		validationState,
-		updateUrl
+		toggleTweak,
+		tweaksByGroup,
+		updateUrl,
+		validationState
 	} from '$lib/stores/appState';
 	import { browser } from '$app/environment';
 	import { GTNH_VERSIONS } from '$lib/data/versions';
 	import TweakCard from '$lib/components/TweakCard.svelte';
 	import ConfigCard from '$lib/components/ConfigCard.svelte';
-	import { TWEAKS } from '$lib/data/tweaks';
+	import { ALL_TWEAKS } from '$lib/data/tweaks';
 	import type { TweakDef } from '$lib/tweak';
 	import Icon from '@iconify/svelte';
 	import type { PageServerData } from './$types';
@@ -33,7 +34,7 @@
 	}
 
 	$: selectedTweakList = Object.keys($selections)
-		.map((id) => TWEAKS.find((t) => t.id === id))
+		.map((id) => ALL_TWEAKS.get(id))
 		.filter((t) => !!t)
 		.sort((a, b) => (a?.group || '').toLowerCase().localeCompare((b?.group || '').toLowerCase()));
 
@@ -112,7 +113,7 @@
 				<div class="help-links">
 					<a
 						class="icon-button"
-						href="{data.props.repository}"
+						href={data.props.repository}
 						target="_blank"
 						rel="noreferrer"
 						aria-label="Open gtnh-tweaks on GitHub"
@@ -137,8 +138,8 @@
 					{#if openGroups[group]}
 						<div class="acc-body">
 							{#each [...groupTweaks].sort((a, b) => a.name
-								.toLowerCase()
-								.localeCompare(b.name.toLowerCase())) as tweak (tweak.id)}
+									.toLowerCase()
+									.localeCompare(b.name.toLowerCase())) as tweak (tweak.id)}
 								{#if !$stargateFilter || tweak.stargateState !== false}
 									<TweakCard {tweak} on:click={() => toggleTweak(tweak.id)} />
 								{/if}
@@ -179,8 +180,8 @@
 							{#if openConfigGroups[group]}
 								<div class="acc-body">
 									{#each [...groupTweaks].sort((a, b) => a.name
-										.toLowerCase()
-										.localeCompare(b.name.toLowerCase())) as tweak (tweak.id)}
+											.toLowerCase()
+											.localeCompare(b.name.toLowerCase())) as tweak (tweak.id)}
 										<ConfigCard {tweak} />
 									{/each}
 								</div>
@@ -194,6 +195,7 @@
 				<button
 					class="btn-primary"
 					disabled={Object.keys($selections).length === 0 || hasAnyErrors}
+					on:click={() => download($selectedVersion, $selections)}
 				>
 					Download Tweaks.zip
 				</button>
@@ -203,130 +205,130 @@
 </div>
 
 <style lang="scss">
-  @use '$lib/styles/mixins' as mixins;
+	@use '$lib/styles/mixins' as mixins;
 
-  .app-container {
-    display: flex;
-    flex-direction: column;
-    height: 100vh;
-  }
+	.app-container {
+		display: flex;
+		flex-direction: column;
+		height: 100vh;
+	}
 
-  header {
-    padding-block: 1rem;
-    padding-inline: 0;
-    background: var(--surface-2);
-    border-bottom: 1px solid var(--border);
+	header {
+		padding-block: 1rem;
+		padding-inline: 0;
+		background: var(--surface-2);
+		border-bottom: 1px solid var(--border);
 
-    h1 {
-      margin: 0;
-      font-size: 1.5rem;
-    }
+		h1 {
+			margin: 0;
+			font-size: 1.5rem;
+		}
 
-    .controls {
-      display: flex;
-      gap: 2rem;
-      align-items: center;
+		.controls {
+			display: flex;
+			gap: 2rem;
+			align-items: center;
 
-      label {
-        margin-right: 0.5rem;
-        font-size: 0.9rem;
-        color: var(--text-muted);
-      }
-    }
-  }
+			label {
+				margin-right: 0.5rem;
+				font-size: 0.9rem;
+				color: var(--text-muted);
+			}
+		}
+	}
 
-  .header-inner {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
+	.header-inner {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+	}
 
-  .grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    flex: 1;
-    overflow: hidden;
-    // Reuse the layout container width rule from app.scss
-    width: min(var(--max-screen-width), 100% - 2rem);
-    margin-inline: auto;
-  }
+	.grid {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		flex: 1;
+		overflow: hidden;
+		// Reuse the layout container width rule from app.scss
+		width: min(var(--max-screen-width), 100% - 2rem);
+		margin-inline: auto;
+	}
 
-  .panel {
-    overflow-y: auto;
-    padding: 1rem;
+	.panel {
+		overflow-y: auto;
+		padding: 1rem;
 
-    &.left {
-      border-right: 1px solid var(--border);
-    }
+		&.left {
+			border-right: 1px solid var(--border);
+		}
 
-    &.right {
-      background: var(--surface);
-      display: flex;
-      flex-direction: column;
-    }
-  }
+		&.right {
+			background: var(--surface);
+			display: flex;
+			flex-direction: column;
+		}
+	}
 
-  .accordion {
-    margin-bottom: 0.5rem;
+	.accordion {
+		margin-bottom: 0.5rem;
 
-    .acc-header {
-      @include mixins.button-base;
-      width: 100%;
-      justify-content: flex-start;
-      text-align: left;
-      font-weight: bold;
+		.acc-header {
+			@include mixins.button-base;
+			width: 100%;
+			justify-content: flex-start;
+			text-align: left;
+			font-weight: bold;
 
-      // Keep arrow pinned to the far right regardless of leading icons
-      .arrow {
-        margin-left: auto;
-      }
+			// Keep arrow pinned to the far right regardless of leading icons
+			.arrow {
+				margin-left: auto;
+			}
 
-      &.error {
-        border-color: var(--error);
-        color: var(--error);
-        background: color-mix(in srgb, var(--error) 12%, var(--surface-3));
-      }
-    }
+			&.error {
+				border-color: var(--error);
+				color: var(--error);
+				background: color-mix(in srgb, var(--error) 12%, var(--surface-3));
+			}
+		}
 
-    .acc-body {
-      padding: 0.5rem 0;
-    }
-  }
+		.acc-body {
+			padding: 0.5rem 0;
+		}
+	}
 
-  .sticky-header {
-    padding-bottom: 1rem;
-    border-bottom: 1px solid var(--border);
-    margin-bottom: 1rem;
+	.sticky-header {
+		padding-bottom: 1rem;
+		border-bottom: 1px solid var(--border);
+		margin-bottom: 1rem;
 
-    .err-ico {
-      margin-right: 0.4rem;
-    }
+		.err-ico {
+			margin-right: 0.4rem;
+		}
 
-    &.error {
-      border-bottom-color: var(--error);
+		&.error {
+			border-bottom-color: var(--error);
 
-      h2 {
-        color: var(--error);
-      }
-    }
-  }
+			h2 {
+				color: var(--error);
+			}
+		}
+	}
 
-  .config-list {
-    flex: 1;
-  }
+	.config-list {
+		flex: 1;
+	}
 
-  .panel.right footer {
-    margin-top: auto;
-    position: sticky;
-    bottom: 0;
-    background: var(--surface-2);
-    border-top: 1px solid var(--border);
-    padding: 1rem;
-  }
+	.panel.right footer {
+		margin-top: auto;
+		position: sticky;
+		bottom: 0;
+		background: var(--surface-2);
+		border-top: 1px solid var(--border);
+		padding: 1rem;
+	}
 
-  .empty-state {
-    text-align: center;
-    color: var(--text-muted);
-    margin-top: 3rem;
-  }
+	.empty-state {
+		text-align: center;
+		color: var(--text-muted);
+		margin-top: 3rem;
+	}
 </style>
