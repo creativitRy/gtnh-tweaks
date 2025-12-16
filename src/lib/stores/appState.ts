@@ -4,6 +4,8 @@ import { GTNH_VERSIONS } from '$lib/data/versions';
 import type { SelectedTweaksMap, TweakId, TweakDef, TweakConfig, ConfigValue } from '$lib/tweak';
 import LZString from 'lz-string';
 import { browser } from '$app/environment';
+import { replaceState } from '$app/navigation';
+import { tick } from 'svelte';
 
 export const selectedVersion = writable<string>(GTNH_VERSIONS[0].id);
 export const stargateFilter = writable<boolean>(false);
@@ -106,12 +108,9 @@ export function updateUrl() {
 	params.set('q', compressed);
 
 	const newUrl = `${window.location.pathname}?${params.toString()}`;
-	window.history.replaceState({}, '', newUrl);
-}
-
-if (browser) {
-	selectedVersion.subscribe(() => updateUrl());
-	stargateFilter.subscribe(() => updateUrl());
+	tick().then(() => {
+		replaceState(newUrl, {});
+	});
 }
 
 export function loadFromUrl() {

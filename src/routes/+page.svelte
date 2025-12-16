@@ -16,6 +16,10 @@
 	import ConfigCard from '$lib/components/ConfigCard.svelte';
 	import { TWEAKS } from '$lib/data/tweaks';
 	import type { TweakDef } from '$lib/tweak';
+	import Icon from '@iconify/svelte';
+	import type { PageServerData } from './$types';
+
+	export let data: PageServerData;
 
 	onMount(() => {
 		loadFromUrl();
@@ -31,15 +35,12 @@
 	$: selectedTweakList = Object.keys($selections)
 		.map((id) => TWEAKS.find((t) => t.id === id))
 		.filter((t) => !!t)
-		// sort by group name case-insensitively
 		.sort((a, b) => (a?.group || '').toLowerCase().localeCompare((b?.group || '').toLowerCase()));
 
-	// Left panel: groups sorted by group name (case-insensitive)
 	$: leftGroupEntries = Object.entries($tweaksByGroup).sort((a, b) =>
 		a[0].toLowerCase().localeCompare(b[0].toLowerCase())
 	);
 
-	// Group selected tweaks (right panel) by their group
 	$: selectedTweaksByGroup = selectedTweakList.reduce(
 		(acc, t) => {
 			const tweak = t as TweakDef;
@@ -53,27 +54,30 @@
 		{} as Record<string, TweakDef[]>
 	);
 
-	// Right panel: groups sorted by group name (case-insensitive)
 	$: selectedGroupEntries = Object.entries(selectedTweaksByGroup).sort((a, b) =>
 		a[0].toLowerCase().localeCompare(b[0].toLowerCase())
 	);
 
-	// Validation helpers
 	$: hasAnyErrors = Object.values($validationState || {}).some((errs) => (errs?.length || 0) > 0);
 	$: tweaksWithErrors = new Set(
 		Object.entries($validationState || {})
 			.filter(([, errs]) => (errs?.length || 0) > 0)
 			.map(([id]) => id)
 	);
+
 	function groupHasErrors(groupTweaks: TweakDef[]) {
 		return groupTweaks.some((t) => tweaksWithErrors.has(t.id));
 	}
 
-	if (browser) {
-		void $selectedVersion;
-		void $stargateFilter;
-		updateUrl();
-	}
+	onMount(() => {
+		if (browser) {
+			void $selectedVersion;
+			void $stargateFilter;
+			updateUrl();
+			selectedVersion.subscribe(() => updateUrl());
+			stargateFilter.subscribe(() => updateUrl());
+		}
+	});
 </script>
 
 <div class="app-container">
@@ -104,6 +108,19 @@
 						<option disabled>Coming Soon...</option>
 					</select>
 				</div>
+
+				<div class="help-links">
+					<a
+						class="icon-button"
+						href="{data.props.repository}"
+						target="_blank"
+						rel="noreferrer"
+						aria-label="Open gtnh-tweaks on GitHub"
+						title="gtnh-tweaks on GitHub"
+					>
+						<Icon icon="mdi:github" width="25" height="25" />
+					</a>
+				</div>
 			</div>
 		</div>
 	</header>
@@ -120,8 +137,8 @@
 					{#if openGroups[group]}
 						<div class="acc-body">
 							{#each [...groupTweaks].sort((a, b) => a.name
-									.toLowerCase()
-									.localeCompare(b.name.toLowerCase())) as tweak (tweak.id)}
+								.toLowerCase()
+								.localeCompare(b.name.toLowerCase())) as tweak (tweak.id)}
 								{#if !$stargateFilter || tweak.stargateState !== false}
 									<TweakCard {tweak} on:click={() => toggleTweak(tweak.id)} />
 								{/if}
@@ -162,8 +179,8 @@
 							{#if openConfigGroups[group]}
 								<div class="acc-body">
 									{#each [...groupTweaks].sort((a, b) => a.name
-											.toLowerCase()
-											.localeCompare(b.name.toLowerCase())) as tweak (tweak.id)}
+										.toLowerCase()
+										.localeCompare(b.name.toLowerCase())) as tweak (tweak.id)}
 										<ConfigCard {tweak} />
 									{/each}
 								</div>
@@ -186,129 +203,130 @@
 </div>
 
 <style lang="scss">
-	@use '$lib/styles/mixins' as mixins;
-	.app-container {
-		display: flex;
-		flex-direction: column;
-		height: 100vh;
-	}
+  @use '$lib/styles/mixins' as mixins;
 
-	header {
-		padding-block: 1rem;
-		padding-inline: 0;
-		background: var(--surface-2);
-		border-bottom: 1px solid var(--border);
+  .app-container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+  }
 
-		h1 {
-			margin: 0;
-			font-size: 1.5rem;
-		}
+  header {
+    padding-block: 1rem;
+    padding-inline: 0;
+    background: var(--surface-2);
+    border-bottom: 1px solid var(--border);
 
-		.controls {
-			display: flex;
-			gap: 2rem;
-			align-items: center;
+    h1 {
+      margin: 0;
+      font-size: 1.5rem;
+    }
 
-			label {
-				margin-right: 0.5rem;
-				font-size: 0.9rem;
-				color: var(--text-muted);
-			}
-		}
-	}
+    .controls {
+      display: flex;
+      gap: 2rem;
+      align-items: center;
 
-	.header-inner {
-		display: flex;
-		align-items: center;
-		justify-content: space-between;
-	}
+      label {
+        margin-right: 0.5rem;
+        font-size: 0.9rem;
+        color: var(--text-muted);
+      }
+    }
+  }
 
-	.grid {
-		display: grid;
-		grid-template-columns: 1fr 1fr;
-		flex: 1;
-		overflow: hidden;
-		// Reuse the layout container width rule from app.scss
-		width: min(var(--max-screen-width), 100% - 2rem);
-		margin-inline: auto;
-	}
+  .header-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
 
-	.panel {
-		overflow-y: auto;
-		padding: 1rem;
+  .grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    flex: 1;
+    overflow: hidden;
+    // Reuse the layout container width rule from app.scss
+    width: min(var(--max-screen-width), 100% - 2rem);
+    margin-inline: auto;
+  }
 
-		&.left {
-			border-right: 1px solid var(--border);
-		}
+  .panel {
+    overflow-y: auto;
+    padding: 1rem;
 
-		&.right {
-			background: var(--surface);
-			display: flex;
-			flex-direction: column;
-		}
-	}
+    &.left {
+      border-right: 1px solid var(--border);
+    }
 
-	.accordion {
-		margin-bottom: 0.5rem;
+    &.right {
+      background: var(--surface);
+      display: flex;
+      flex-direction: column;
+    }
+  }
 
-		.acc-header {
-			@include mixins.button-base;
-			width: 100%;
-			justify-content: flex-start;
-			text-align: left;
-			font-weight: bold;
+  .accordion {
+    margin-bottom: 0.5rem;
 
-			// Keep arrow pinned to the far right regardless of leading icons
-			.arrow {
-				margin-left: auto;
-			}
+    .acc-header {
+      @include mixins.button-base;
+      width: 100%;
+      justify-content: flex-start;
+      text-align: left;
+      font-weight: bold;
 
-			&.error {
-				border-color: var(--error);
-				color: var(--error);
-				background: color-mix(in srgb, var(--error) 12%, var(--surface-3));
-			}
-		}
+      // Keep arrow pinned to the far right regardless of leading icons
+      .arrow {
+        margin-left: auto;
+      }
 
-		.acc-body {
-			padding: 0.5rem 0;
-		}
-	}
+      &.error {
+        border-color: var(--error);
+        color: var(--error);
+        background: color-mix(in srgb, var(--error) 12%, var(--surface-3));
+      }
+    }
 
-	.sticky-header {
-		padding-bottom: 1rem;
-		border-bottom: 1px solid var(--border);
-		margin-bottom: 1rem;
+    .acc-body {
+      padding: 0.5rem 0;
+    }
+  }
 
-		.err-ico {
-			margin-right: 0.4rem;
-		}
+  .sticky-header {
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 1rem;
 
-		&.error {
-			border-bottom-color: var(--error);
+    .err-ico {
+      margin-right: 0.4rem;
+    }
 
-			h2 {
-				color: var(--error);
-			}
-		}
-	}
+    &.error {
+      border-bottom-color: var(--error);
 
-	.config-list {
-		flex: 1;
-	}
+      h2 {
+        color: var(--error);
+      }
+    }
+  }
 
-	.panel.right footer {
-		margin-top: auto;
-		position: sticky;
-		bottom: 0;
-		background: var(--surface-2);
-		border-top: 1px solid var(--border);
-		padding: 1rem;
-	}
+  .config-list {
+    flex: 1;
+  }
 
-	.empty-state {
-		text-align: center;
-		color: var(--text-muted);
-		margin-top: 3rem;
-	}
+  .panel.right footer {
+    margin-top: auto;
+    position: sticky;
+    bottom: 0;
+    background: var(--surface-2);
+    border-top: 1px solid var(--border);
+    padding: 1rem;
+  }
+
+  .empty-state {
+    text-align: center;
+    color: var(--text-muted);
+    margin-top: 3rem;
+  }
 </style>

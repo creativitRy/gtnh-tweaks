@@ -2,6 +2,7 @@
 	"name": "gtnh-tweaks",
 	"private": true,
 	"version": "0.0.1",
+	"repository": "https://github.com/creativitRy/gtnh-tweaks",
 	"type": "module",
 	"scripts": {
 		"dev": "vite dev",
@@ -16,6 +17,7 @@
 	"devDependencies": {
 		"@eslint/compat": "^1.4.0",
 		"@eslint/js": "^9.39.1",
+		"@iconify/svelte": "^5.1.0",
 		"@sveltejs/adapter-auto": "^7.0.0",
 		"@sveltejs/adapter-static": "^3.0.10",
 		"@sveltejs/kit": "^2.49.1",
