@@ -30,6 +30,7 @@
 			{/if}
 		</h3>
 		<span class="sg-badge" data-status={sgStateDisplay}>SG: {sgStateDisplay}</span>
+		<slot name="header-actions" />
 	</div>
 
 	{#if description}

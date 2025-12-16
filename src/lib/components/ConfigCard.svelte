@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { TweakDef } from '$lib/types';
-	import { selections, validationState, stargateFilter, updateConfig } from '$lib/stores/appState';
+ import { selections, validationState, stargateFilter, updateConfig, toggleTweak } from '$lib/stores/appState';
 	import BaseCard from '$lib/components/BaseCard.svelte';
 
 	export let tweak: TweakDef;
@@ -14,13 +14,22 @@
 </script>
 
 <BaseCard
-	icon={tweak.icon}
-	name={tweak.name}
-	description={tweak.description}
-	{sgState}
-	{statusClass}
-	hasConfigs={!!tweak.configs}
+    icon={tweak.icon}
+    name={tweak.name}
+    description={tweak.description}
+    {sgState}
+    {statusClass}
+    hasConfigs={!!tweak.configs}
 >
+    <button
+        slot="header-actions"
+        class="clear-btn"
+        title="Deselect this tweak"
+        aria-label="Deselect"
+        on:click|stopPropagation={() => toggleTweak(tweak.id)}
+    >
+        ×
+    </button>
 	{#if tweak.configs}
 		<div class="controls">
 			{#each Object.entries(tweak.configs) as [key, schema] (key)}
@@ -101,6 +110,24 @@
 
     .err-msg {
       @include mixins.error-text;
+    }
+  }
+
+  .clear-btn {
+    margin-left: 0.5rem;
+    align-self: center;
+    border: 0;
+    background: transparent;
+    color: var(--muted-fg);
+    font-size: 1rem;
+    line-height: 1;
+    padding: 0.15rem 0.35rem;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+
+    &:hover {
+      background: var(--surface-3);
+      color: var(--fg);
     }
   }
 </style>
