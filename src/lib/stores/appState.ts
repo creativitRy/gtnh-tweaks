@@ -136,7 +136,14 @@ export function loadFromUrl() {
 	if (q) {
 		try {
 			const json = LZString.decompressFromEncodedURIComponent(q);
-			if (json) selections.set(JSON.parse(json));
+			if (json) {
+				const parsedSelections = JSON.parse(json) as SelectedTweaksMap;
+				const sanitizedSelections: SelectedTweaksMap = {};
+				for (const id of Object.keys(parsedSelections)) {
+					if (ALL_TWEAKS.has(id)) sanitizedSelections[id] = parsedSelections[id];
+				}
+				selections.set(sanitizedSelections);
+			}
 		} catch (e) {
 			console.error('Failed to parse URL state', e);
 		}
@@ -148,12 +155,13 @@ export async function download(version: string, selections: SelectedTweaksMap) {
 	try {
 		for (const id of Object.keys(selections)) {
 			const tweak = ALL_TWEAKS.get(id)!;
-			tweak.onDownload(selections[id], downloadCtx);
+			await tweak.onDownload(selections[id], downloadCtx);
 		}
 
 		const blob = await downloadCtx.generate();
 		saveAs(blob, 'gtnh-tweaks.zip');
 	} catch (e) {
+		console.error(e);
 		alert('Failed to generate download: ' + e);
 	}
 }

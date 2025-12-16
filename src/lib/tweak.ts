@@ -1,4 +1,5 @@
 import JSZip from 'jszip';
+import { applyPatch, type StructuredPatch } from 'diff';
 
 export type TweakId = string;
 export type VersionId = string;
@@ -50,7 +51,7 @@ export interface TweakDef {
 		modpackVersion: string,
 		config: Record<string, ConfigValue>
 	) => { name: string; url: string; filename: string }[];
-	onDownload: (config: Record<string, ConfigValue>, ctx: DownloadContext) => void;
+	onDownload: (config: Record<string, ConfigValue>, ctx: DownloadContext) => Promise<void>;
 }
 
 export type TweakConfig = Record<string, ConfigValue>;
@@ -59,7 +60,7 @@ export type SelectedTweaksMap = Record<TweakId, TweakConfig>;
 export class DownloadContext {
 	private zip: JSZip;
 	private createdFiles = new Set<string>();
-	private modifiedFiles = new Set<string>();
+	private modifiedFiles = new Map<string, string>();
 	private deletedFiles = new Set<string>();
 
 	constructor(
@@ -70,7 +71,35 @@ export class DownloadContext {
 		this.zip = new JSZip();
 	}
 
+	createRawFile(filePath: string, content: string | Blob): void {
+		if (this.createdFiles.has(filePath)) throw new Error(`File ${filePath} was already created`);
+		this.createdFiles.add(filePath);
+		this.zip.file(filePath, content);
+	}
+
+	async patchFile(
+		filePath: string,
+		patch: string | StructuredPatch | [StructuredPatch]
+	): Promise<void> {
+		let prev = this.modifiedFiles.get(filePath);
+		if (prev === undefined) {
+			console.assert(filePath.startsWith('.minecraft/'));
+			const url = `gtnh/${this.version}/${filePath.slice('.minecraft/'.length)}`;
+			const response = await fetch(url);
+			if (!response.ok) throw new Error(`Failed to fetch ${url}: ${response.statusText}`);
+			prev = await response.text();
+		}
+		const patchResult = applyPatch(prev, patch);
+		if (patchResult === false) throw new Error(`Failed to apply patch to ${filePath}`);
+		this.modifiedFiles.set(filePath, patchResult);
+	}
+
 	async generate(): Promise<Blob> {
+		for (const [id, content] of this.modifiedFiles.entries()) {
+			console.log(id, content);
+			this.zip.file(id, content);
+		}
+
 		for (const [id, tweakConfig] of Object.entries(this.selections)) {
 			const tweak = this.ALL_TWEAKS.get(id)!;
 			for (const mod of tweak.modsToDownload
