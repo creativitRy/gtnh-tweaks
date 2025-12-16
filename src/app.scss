@@ -1,0 +1,58 @@
+@use '$lib/styles/tokens' as tokens;
+@use '$lib/styles/mixins' as mixins;
+@use '$lib/styles/reset';
+
+body {
+	background: var(--bg);
+	color: var(--text);
+	font-family: tokens.$font-base;
+}
+
+/* Layout helpers */
+.container {
+	width: min(var(--max-screen-width), 100% - 2rem);
+	margin-inline: auto;
+}
+
+/* Unified form controls */
+input[type='text'],
+input[type='number'],
+input[type='search'],
+select,
+textarea {
+	@include mixins.input-base;
+}
+
+/* Normalize native select height to match other controls */
+select {
+	padding-block: 0.25rem;
+	line-height: 1.2;
+}
+
+input[type='checkbox'] {
+	width: 18px;
+	height: 18px;
+	cursor: pointer;
+}
+
+input[type='range'] {
+	width: 100%;
+}
+
+button {
+	@include mixins.button-base;
+}
+
+.btn-primary {
+	@include mixins.button-primary;
+}
+
+/* Cards */
+.card {
+	@include mixins.card;
+}
+
+/* Scrollbars */
+* {
+	@include mixins.scrollbars;
+}
