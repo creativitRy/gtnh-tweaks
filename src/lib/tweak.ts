@@ -1,5 +1,6 @@
 import JSZip from 'jszip';
 import { applyPatch, type StructuredPatch } from 'diff';
+import type { Writable } from 'svelte/store';
 
 export type TweakId = string;
 export type VersionId = string;
@@ -94,10 +95,20 @@ export class DownloadContext {
 		this.modifiedFiles.set(filePath, patchResult);
 	}
 
-	async generate(): Promise<Blob> {
+	async generate(zipProgress: Writable<number | undefined>, part1Progress: number): Promise<Blob> {
+		const FINAL_ZIP_PROGRESS = 0.9;
+		const part2ProgressDelta = (FINAL_ZIP_PROGRESS - part1Progress) * 0.9;
+		let i = 0;
 		for (const [id, content] of this.modifiedFiles.entries()) {
 			console.log(id, content);
 			this.zip.file(id, content);
+			i++;
+			zipProgress.set(
+				Math.min(
+					FINAL_ZIP_PROGRESS,
+					part1Progress + (i * part2ProgressDelta) / this.modifiedFiles.size
+				)
+			);
 		}
 
 		for (const [id, tweakConfig] of Object.entries(this.selections)) {
@@ -138,6 +149,7 @@ ${Object.keys(this.selections)
 				.join('')}
 `
 		);
+		zipProgress.set(FINAL_ZIP_PROGRESS);
 		return this.zip.generateAsync({ type: 'blob' });
 	}
 }

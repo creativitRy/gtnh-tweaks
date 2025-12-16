@@ -19,6 +19,8 @@ export const selectedVersion = writable<string>(GTNH_VERSIONS[0].id);
 export const stargateFilter = writable<boolean>(false);
 export const selections = writable<SelectedTweaksMap>({});
 export const presetName = writable<string>('custom');
+// Zip generation progress: undefined when idle, or a number 0..1 while generating
+export const zipProgress = writable<number | undefined>(undefined);
 
 export const availableTweaks = derived(selectedVersion, ($ver) => {
 	return ALL_TWEAKS.values().filter((t) => t.supportedVersions($ver));
@@ -151,17 +153,30 @@ export function loadFromUrl() {
 }
 
 export async function download(version: string, selections: SelectedTweaksMap) {
+	const PART1_PROGRESS = 0.7;
 	const downloadCtx = new DownloadContext(version, selections, ALL_TWEAKS);
 	try {
-		for (const id of Object.keys(selections)) {
+		zipProgress.set(0);
+
+		const selKeys = Object.keys(selections);
+		const total = selKeys.length || 1;
+		let index = 0;
+		for (const id of selKeys) {
 			const tweak = ALL_TWEAKS.get(id)!;
 			await tweak.onDownload(selections[id], downloadCtx);
+			index += 1;
+			zipProgress.set((index * PART1_PROGRESS) / total);
 		}
 
-		const blob = await downloadCtx.generate();
+		zipProgress.set(PART1_PROGRESS);
+		const blob = await downloadCtx.generate(zipProgress, PART1_PROGRESS);
+		zipProgress.set(1);
 		saveAs(blob, 'gtnh-tweaks.zip');
 	} catch (e) {
 		console.error(e);
 		alert('Failed to generate download: ' + e);
+	} finally {
+		// Hide the modal after a short tick to let UI show 100% momentarily
+		setTimeout(() => zipProgress.set(undefined), 1000);
 	}
 }

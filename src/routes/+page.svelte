@@ -9,7 +9,8 @@
 		toggleTweak,
 		tweaksByGroup,
 		updateUrl,
-		validationState
+		validationState,
+		zipProgress
 	} from '$lib/stores/appState';
 	import { browser } from '$app/environment';
 	import { GTNH_VERSIONS } from '$lib/data/versions';
@@ -136,9 +137,7 @@
 	<main class="grid">
 		<section class="panel left">
 			<div class="sticky-header">
-				<h2>
-					All Tweaks
-				</h2>
+				<h2>All Tweaks</h2>
 			</div>
 			{#each leftGroupEntries as [group, groupTweaks] (group)}
 				<div class="accordion">
@@ -204,10 +203,23 @@
 			</div>
 
 			<footer>
-				<!--				TODO: zip generation progress bar modal -->
+				{#if $zipProgress !== undefined}
+					<div class="modal-backdrop" aria-hidden={$zipProgress === undefined}>
+						<div class="modal" role="dialog" aria-modal="true" aria-label="Generating zip">
+							<div class="modal-title">Generating Tweaks.zip</div>
+							<div class="progress">
+								<div class="bar" style={`width: ${Math.round(($zipProgress || 0) * 100)}%`}></div>
+							</div>
+							<div class="progress-text">{Math.round(($zipProgress || 0) * 100)}%</div>
+							<div class="modal-note">Almost there...</div>
+						</div>
+					</div>
+				{/if}
 				<button
 					class="btn-primary"
-					disabled={Object.keys($selections).length === 0 || hasAnyErrors}
+					disabled={Object.keys($selections).length === 0 ||
+						hasAnyErrors ||
+						$zipProgress !== undefined}
 					on:click={() => download($selectedVersion, $selections)}
 				>
 					Download Tweaks.zip
@@ -264,6 +276,60 @@
 		// Reuse the layout container width rule from app.scss
 		width: min(var(--max-screen-width), 100% - 2rem);
 		margin-inline: auto;
+	}
+
+	.modal-backdrop {
+		position: fixed;
+		inset: 0;
+		background: rgba(0, 0, 0, 0.45);
+		display: grid;
+		place-items: center;
+		z-index: 1000;
+		/* prevent closing or interacting with background */
+		pointer-events: all;
+	}
+
+	.modal {
+		background: var(--surface-2);
+		color: var(--text);
+		border: 1px solid var(--border);
+		border-radius: 0.5rem;
+		padding: 1.25rem 1.25rem 1rem;
+		width: min(420px, 92vw);
+		box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+	}
+
+	.modal-title {
+		font-weight: 600;
+		margin-bottom: 0.75rem;
+	}
+
+	.progress {
+		height: 10px;
+		background: var(--surface);
+		border: 1px solid var(--border);
+		border-radius: 999px;
+		overflow: hidden;
+	}
+
+	.progress .bar {
+		height: 100%;
+		background: var(--primary);
+		width: 0%;
+		transition: width 120ms ease-out;
+	}
+
+	.progress-text {
+		text-align: right;
+		font-variant-numeric: tabular-nums;
+		margin-top: 0.5rem;
+		color: var(--text-muted);
+	}
+
+	.modal-note {
+		margin-top: 0.5rem;
+		font-size: 0.875rem;
+		color: var(--text-muted);
 	}
 
 	.panel {
