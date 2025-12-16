@@ -1,4 +1,4 @@
-import type { TweakDef } from '$lib/types';
+import type { TweakDef } from '$lib/tweak';
 
 export const TWEAKS: TweakDef[] = [
 	{

@@ -2,7 +2,6 @@ export type TweakId = string;
 export type VersionId = string;
 export type GroupId = 'Graphics' | 'QoL' | 'Fun' | 'Mechanics';
 
-// Configuration Schema as a discriminated union
 export type ConfigValue = string | number | boolean;
 
 export type CheckboxConfig = {
@@ -32,16 +31,14 @@ export interface TweakDef {
 	id: TweakId;
 	name: string;
 	description: string;
-	icon: string; // emoji or svg path for now
+	icon: string;
 	group: GroupId;
 	configs?: Record<string, ConfigSchema>;
 	incompatibleWith?: TweakId[];
 
-	// Logic functions
 	supportedVersions: (v: VersionId) => boolean;
 	stargateState: ((config: Record<string, ConfigValue>) => boolean) | boolean;
 }
 
-// State Types
 export type TweakConfig = Record<string, ConfigValue>;
 export type SelectedTweaksMap = Record<TweakId, TweakConfig>;

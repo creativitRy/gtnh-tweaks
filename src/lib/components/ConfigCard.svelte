@@ -1,35 +1,41 @@
 <script lang="ts">
-	import type { TweakDef } from '$lib/types';
- import { selections, validationState, stargateFilter, updateConfig, toggleTweak } from '$lib/stores/appState';
+	import type { TweakDef } from '$lib/tweak';
+	import {
+		selections,
+		validationState,
+		stargateFilter,
+		updateConfig,
+		toggleTweak
+	} from '$lib/stores/appState';
 	import BaseCard from '$lib/components/BaseCard.svelte';
 
 	export let tweak: TweakDef;
 
 	$: config = $selections[tweak.id];
 	$: errors = $validationState[tweak.id] || [];
-	$: sgState = typeof tweak.stargateState === 'boolean' ? tweak.stargateState : tweak.stargateState(config);
+	$: sgState =
+		typeof tweak.stargateState === 'boolean' ? tweak.stargateState : tweak.stargateState(config);
 
-	$: statusClass =
-		errors.length > 0 ? 'error' : !sgState && !$stargateFilter ? 'warning' : 'ok';
+	$: statusClass = errors.length > 0 ? 'error' : !sgState && !$stargateFilter ? 'warning' : 'ok';
 </script>
 
 <BaseCard
-    icon={tweak.icon}
-    name={tweak.name}
-    description={tweak.description}
-    {sgState}
-    {statusClass}
-    hasConfigs={!!tweak.configs}
+	icon={tweak.icon}
+	name={tweak.name}
+	description={tweak.description}
+	{sgState}
+	{statusClass}
+	hasConfigs={!!tweak.configs}
 >
-    <button
-        slot="header-actions"
-        class="clear-btn"
-        title="Deselect this tweak"
-        aria-label="Deselect"
-        on:click|stopPropagation={() => toggleTweak(tweak.id)}
-    >
-        ×
-    </button>
+	<button
+		slot="header-actions"
+		class="clear-btn"
+		title="Deselect this tweak"
+		aria-label="Deselect"
+		on:click|stopPropagation={() => toggleTweak(tweak.id)}
+	>
+		×
+	</button>
 	{#if tweak.configs}
 		<div class="controls">
 			{#each Object.entries(tweak.configs) as [key, schema] (key)}
@@ -85,49 +91,49 @@
 </BaseCard>
 
 <style lang="scss">
-  @use '$lib/styles/mixins' as mixins;
+	@use '$lib/styles/mixins' as mixins;
 
-  .controls {
-    background: var(--surface-2);
-    padding: 0.5rem;
-    border-radius: var(--radius-sm);
+	.controls {
+		background: var(--surface-2);
+		padding: 0.5rem;
+		border-radius: var(--radius-sm);
 
-    .control-group {
-      @include mixins.form-row(0.5rem);
+		.control-group {
+			@include mixins.form-row(0.5rem);
 
-      &:last-child {
-        margin-bottom: 0;
-      }
+			&:last-child {
+				margin-bottom: 0;
+			}
 
-      .slider-row {
-        @include mixins.inline-cluster(0.5rem);
-      }
-    }
-  }
+			.slider-row {
+				@include mixins.inline-cluster(0.5rem);
+			}
+		}
+	}
 
-  .errors {
-    margin-top: 1rem;
+	.errors {
+		margin-top: 1rem;
 
-    .err-msg {
-      @include mixins.error-text;
-    }
-  }
+		.err-msg {
+			@include mixins.error-text;
+		}
+	}
 
-  .clear-btn {
-    margin-left: 0.5rem;
-    align-self: center;
-    border: 0;
-    background: transparent;
-    color: var(--muted-fg);
-    font-size: 1rem;
-    line-height: 1;
-    padding: 0.15rem 0.35rem;
-    border-radius: var(--radius-sm);
-    cursor: pointer;
+	.clear-btn {
+		margin-left: 0.5rem;
+		align-self: center;
+		border: 0;
+		background: transparent;
+		color: var(--muted-fg);
+		font-size: 1rem;
+		line-height: 1;
+		padding: 0.15rem 0.35rem;
+		border-radius: var(--radius-sm);
+		cursor: pointer;
 
-    &:hover {
-      background: var(--surface-3);
-      color: var(--fg);
-    }
-  }
+		&:hover {
+			background: var(--surface-3);
+			color: var(--fg);
+		}
+	}
 </style>

@@ -1,7 +1,7 @@
 import { writable, derived, get } from 'svelte/store';
 import { TWEAKS } from '$lib/data/tweaks';
 import { GTNH_VERSIONS } from '$lib/data/versions';
-import type { SelectedTweaksMap, TweakId, TweakDef, TweakConfig, ConfigValue } from '$lib/types';
+import type { SelectedTweaksMap, TweakId, TweakDef, TweakConfig, ConfigValue } from '$lib/tweak';
 import LZString from 'lz-string';
 import { browser } from '$app/environment';
 

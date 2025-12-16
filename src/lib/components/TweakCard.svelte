@@ -1,16 +1,13 @@
 <script lang="ts">
-	import type { TweakDef } from '$lib/types';
+	import type { TweakDef } from '$lib/tweak';
 	import { selections } from '$lib/stores/appState';
 	import BaseCard from '$lib/components/BaseCard.svelte';
 
 	export let tweak: TweakDef;
 
 	$: isSelected = !!$selections[tweak.id];
-	$: sgState = tweak.stargateState === true
-		? true
-		: tweak.stargateState === false
-			? false
-			: undefined;
+	$: sgState =
+		tweak.stargateState === true ? true : tweak.stargateState === false ? false : undefined;
 </script>
 
 <BaseCard

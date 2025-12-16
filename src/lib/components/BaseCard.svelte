@@ -8,11 +8,7 @@
 	export let selected: boolean = false;
 	export let hasConfigs: boolean = false;
 
-	$: sgStateDisplay = sgState === true
-		? 'Yes'
-		: sgState === false
-			? 'No'
-			: 'Depends';
+	$: sgStateDisplay = sgState === true ? 'Yes' : sgState === false ? 'No' : 'Depends';
 </script>
 
 <svelte:element
@@ -43,7 +39,7 @@
 </svelte:element>
 
 <style lang="scss">
-    @use '$lib/styles/mixins' as mixins;
+	@use '$lib/styles/mixins' as mixins;
 	.card {
 		@include mixins.card-pane();
 		@include mixins.card-accent(var(--border));
@@ -68,7 +64,9 @@
 				margin: 0;
 				flex-grow: 1;
 			}
-			.icon { font-size: 1.5rem; }
+			.icon {
+				font-size: 1.5rem;
+			}
 
 			.sg-badge {
 				@include mixins.badge();

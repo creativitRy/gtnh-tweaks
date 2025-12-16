@@ -15,32 +15,32 @@
 	import TweakCard from '$lib/components/TweakCard.svelte';
 	import ConfigCard from '$lib/components/ConfigCard.svelte';
 	import { TWEAKS } from '$lib/data/tweaks';
-    import type { TweakDef } from '$lib/types';
+	import type { TweakDef } from '$lib/tweak';
 
 	onMount(() => {
 		loadFromUrl();
 	});
 
- let openGroups: Record<string, boolean> = {};
-  let openConfigGroups: Record<string, boolean> = {};
+	let openGroups: Record<string, boolean> = {};
+	let openConfigGroups: Record<string, boolean> = {};
 
 	function toggleGroup(g: string) {
 		openGroups[g] = !openGroups[g];
 	}
 
- $: selectedTweakList = Object.keys($selections)
-    	.map((id) => TWEAKS.find((t) => t.id === id))
-    	.filter((t) => !!t)
-    	// sort by group name case-insensitively
-    	.sort((a, b) => (a?.group || '').toLowerCase().localeCompare((b?.group || '').toLowerCase()));
+	$: selectedTweakList = Object.keys($selections)
+		.map((id) => TWEAKS.find((t) => t.id === id))
+		.filter((t) => !!t)
+		// sort by group name case-insensitively
+		.sort((a, b) => (a?.group || '').toLowerCase().localeCompare((b?.group || '').toLowerCase()));
 
-  // Left panel: groups sorted by group name (case-insensitive)
-  $: leftGroupEntries = Object.entries($tweaksByGroup).sort((a, b) =>
-    a[0].toLowerCase().localeCompare(b[0].toLowerCase())
-  );
+	// Left panel: groups sorted by group name (case-insensitive)
+	$: leftGroupEntries = Object.entries($tweaksByGroup).sort((a, b) =>
+		a[0].toLowerCase().localeCompare(b[0].toLowerCase())
+	);
 
 	// Group selected tweaks (right panel) by their group
- $: selectedTweaksByGroup = selectedTweakList.reduce(
+	$: selectedTweaksByGroup = selectedTweakList.reduce(
 		(acc, t) => {
 			const tweak = t as TweakDef;
 			const g = tweak.group || 'Other';
@@ -51,23 +51,23 @@
 			return acc;
 		},
 		{} as Record<string, TweakDef[]>
- );
+	);
 
- // Right panel: groups sorted by group name (case-insensitive)
- $: selectedGroupEntries = Object.entries(selectedTweaksByGroup).sort((a, b) =>
-   a[0].toLowerCase().localeCompare(b[0].toLowerCase())
- );
+	// Right panel: groups sorted by group name (case-insensitive)
+	$: selectedGroupEntries = Object.entries(selectedTweaksByGroup).sort((a, b) =>
+		a[0].toLowerCase().localeCompare(b[0].toLowerCase())
+	);
 
- // Validation helpers
- $: hasAnyErrors = Object.values($validationState || {}).some((errs) => (errs?.length || 0) > 0);
- $: tweaksWithErrors = new Set(
-     Object.entries($validationState || {})
-         .filter(([, errs]) => (errs?.length || 0) > 0)
-         .map(([id]) => id)
- );
- function groupHasErrors(groupTweaks: TweakDef[]) {
-     return groupTweaks.some((t) => tweaksWithErrors.has(t.id));
- }
+	// Validation helpers
+	$: hasAnyErrors = Object.values($validationState || {}).some((errs) => (errs?.length || 0) > 0);
+	$: tweaksWithErrors = new Set(
+		Object.entries($validationState || {})
+			.filter(([, errs]) => (errs?.length || 0) > 0)
+			.map(([id]) => id)
+	);
+	function groupHasErrors(groupTweaks: TweakDef[]) {
+		return groupTweaks.some((t) => tweaksWithErrors.has(t.id));
+	}
 
 	if (browser) {
 		void $selectedVersion;
@@ -119,7 +119,9 @@
 
 					{#if openGroups[group]}
 						<div class="acc-body">
-							{#each [...groupTweaks].sort((a, b) => a.name.toLowerCase().localeCompare(b.name.toLowerCase())) as tweak (tweak.id)}
+							{#each [...groupTweaks].sort((a, b) => a.name
+									.toLowerCase()
+									.localeCompare(b.name.toLowerCase())) as tweak (tweak.id)}
 								{#if !$stargateFilter || tweak.stargateState !== false}
 									<TweakCard {tweak} on:click={() => toggleTweak(tweak.id)} />
 								{/if}
@@ -146,7 +148,10 @@
 				{:else}
 					{#each selectedGroupEntries as [group, groupTweaks] (group)}
 						<div class="accordion">
-							<button class="acc-header {groupHasErrors(groupTweaks) ? 'error' : ''}" on:click={() => (openConfigGroups[group] = !openConfigGroups[group])}>
+							<button
+								class="acc-header {groupHasErrors(groupTweaks) ? 'error' : ''}"
+								on:click={() => (openConfigGroups[group] = !openConfigGroups[group])}
+							>
 								{#if groupHasErrors(groupTweaks)}
 									<span class="err-ico" aria-hidden="true">⚠️</span>
 								{/if}
@@ -156,7 +161,9 @@
 
 							{#if openConfigGroups[group]}
 								<div class="acc-body">
-									{#each [...groupTweaks].sort((a, b) => a.name.toLowerCase().localeCompare(b.name.toLowerCase())) as tweak (tweak.id)}
+									{#each [...groupTweaks].sort((a, b) => a.name
+											.toLowerCase()
+											.localeCompare(b.name.toLowerCase())) as tweak (tweak.id)}
 										<ConfigCard {tweak} />
 									{/each}
 								</div>
@@ -167,7 +174,10 @@
 			</div>
 
 			<footer>
-				<button class="btn-primary" disabled={Object.keys($selections).length === 0 || hasAnyErrors}>
+				<button
+					class="btn-primary"
+					disabled={Object.keys($selections).length === 0 || hasAnyErrors}
+				>
 					Download Tweaks.zip
 				</button>
 			</footer>
@@ -176,7 +186,7 @@
 </div>
 
 <style lang="scss">
-    @use '$lib/styles/mixins' as mixins;
+	@use '$lib/styles/mixins' as mixins;
 	.app-container {
 		display: flex;
 		flex-direction: column;
@@ -249,7 +259,9 @@
 			font-weight: bold;
 
 			// Keep arrow pinned to the far right regardless of leading icons
-			.arrow { margin-left: auto; }
+			.arrow {
+				margin-left: auto;
+			}
 
 			&.error {
 				border-color: var(--error);
@@ -274,8 +286,10 @@
 
 		&.error {
 			border-bottom-color: var(--error);
-			
-			h2 { color: var(--error); }
+
+			h2 {
+				color: var(--error);
+			}
 		}
 	}
 
