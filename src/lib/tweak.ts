@@ -4,7 +4,6 @@ import type { Writable } from 'svelte/store';
 
 export type TweakId = string;
 export type VersionId = string;
-export type GroupId = 'Graphics' | 'QoL' | 'Fun' | 'Mechanics';
 
 export type ConfigValue = string | number | boolean;
 
@@ -36,11 +35,11 @@ export type TweakIcon =
 	| { kind: 'image'; src: string; alt?: string };
 
 export interface TweakDef {
+	group: string;
 	id: TweakId;
 	name: string;
 	description: string;
 	icon: TweakIcon;
-	group: GroupId;
 	configs?: Record<string, ConfigSchema>;
 	incompatibleWith?: TweakId[];
 
@@ -57,6 +56,12 @@ export interface TweakDef {
 
 export type TweakConfig = Record<string, ConfigValue>;
 export type SelectedTweaksMap = Record<TweakId, TweakConfig>;
+
+export function defineTweak(
+	tweak: Omit<TweakDef, 'group' | 'id'>
+): Omit<TweakDef, 'group' | 'id'> & { defineTweak: true } {
+	return { ...tweak, defineTweak: true };
+}
 
 export class DownloadContext {
 	private zip: JSZip;
@@ -100,7 +105,6 @@ export class DownloadContext {
 		const part2ProgressDelta = (FINAL_ZIP_PROGRESS - part1Progress) * 0.9;
 		let i = 0;
 		for (const [id, content] of this.modifiedFiles.entries()) {
-			console.log(id, content);
 			this.zip.file(id, content);
 			i++;
 			zipProgress.set(

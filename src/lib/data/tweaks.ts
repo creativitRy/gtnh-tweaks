@@ -1,117 +1,19 @@
-import type { GroupId, TweakDef } from '$lib/tweak';
+import { defineTweak, type TweakDef, type TweakId } from '$lib/tweak';
 
-const tweaks: {
-	[group in GroupId]: Omit<TweakDef, 'group'>[];
-} = {
-	Graphics: [],
-	QoL: [
-		{
-			id: 'larger_tsearch_radius',
-			name: 'Larger T Search Radius',
-			description:
-				'Increases the T search radius so that you can find items in chests/machines farther away. Default value is 16.',
-			icon: { kind: 'emoji', value: '🔍' },
-			configs: {
-				radius: {
-					type: 'select',
-					label: 'Search Radius',
-					default: '24',
-					options: ['24', '32', '64']
-				}
-			},
-			supportedVersions: () => true,
-			stargateState: (config) => parseInt(config.radius as string) <= 32,
-			onDownload: async (config, downloadCtx) => {
-				await downloadCtx.patchFile(
-					'.minecraft/config/findit.cfg',
-					`Index: .minecraft/config/findit.cfg
-===================================================================
---- .minecraft/config/findit.cfg
-+++ .minecraft/config/findit.cfg
-@@ -32,9 +32,9 @@
-     # Search items dropped on ground
-     S:SearchItemsOnGround=true
- 
-     # Radius to search within
--    S:SearchRadius=16
-+    S:SearchRadius=${config.radius}
- 
-     # Use Particle for Block Highlighter
-     S:UseParticleHighlighter=false
- }
-`
-				);
-			}
-		},
-		{
-			id: 'detailed_item_tooltips',
-			name: 'Detailed Item Tooltips',
-			description:
-				'Adds detailed tooltips to itmes on hover, such as burn time, registry name, etc.',
-			icon: { kind: 'emoji', value: '💡' },
-			supportedVersions: () => true,
-			stargateState: true,
-			onDownload: async (config, downloadCtx) => {
-				await downloadCtx.patchFile(
-					'.minecraft/config/neiintegration.cfg',
-					`Index: .minecraft/config/neiintegration.cfg
-===================================================================
---- .minecraft/config/neiintegration.cfg
-+++ .minecraft/config/neiintegration.cfg
-@@ -22,27 +22,27 @@
- 
- 
- tooltips {
-     # Show the burn time of items when used as furnace fuel.
--    B:"Burn Time"=false
-+    B:"Burn Time"=true
- 
-     # If burn times are enabled, they will only be shown in advanced (F3+H) tooltips. Effect stacks with Shift if enabled.
-     B:"Burn Time Advanced"=false
- 
-     # If burn times are enabled, they will only be shown if the Shift key is held. Effect stacks with Advanced if enabled.
-     B:"Burn Time Shift"=false
- 
-     # Show some fluid info on fluid-related items.
--    B:"Fluid Registry Info"=false
-+    B:"Fluid Registry Info"=true
- 
-     # If fluid registry info is enabled, it will only be shown in advanced (F3+H) tooltips. Effect stacks with Shift if enabled.
--    B:"Fluid Registry Info Advanced"=false
-+    B:"Fluid Registry Info Advanced"=true
- 
-     # If fluid registry info is enabled, it will only be shown if the Shift key is held. Effect stacks with Advanced if enabled.
-     B:"Fluid Registry Info Shift"=false
- 
-     # Show the internal name (example: 'minecraft:stone') of items.
--    B:"Internal Name"=false
-+    B:"Internal Name"=true
- 
-     # If internal names are enabled, they will only be shown in advanced (F3+H) tooltips. Effect stacks with Shift if enabled.
-     B:"Internal Name Advanced"=false
- 
-@@ -58,12 +58,12 @@
-     # If maximum stack sizes are enabled, they will only be shown if the Shift key is held. Effect stacks with Advanced if enabled.
-     B:"Maximum Stack Size Shift"=false
- 
-     # Show the Ore Dictionary names of items.
--    B:"Ore Dictionary Names"=false
-+    B:"Ore Dictionary Names"=true
- 
-     # If Ore Dictionary names are enabled, they will only be shown in advanced (F3+H) tooltips. Effect stacks with Shift if enabled.
--    B:"Ore Dictionary Names Advanced"=false
-+    B:"Ore Dictionary Names Advanced"=true
- 
-     # If Ore Dictionary names are enabled, they will only be shown if the Shift key is held. Effect stacks with Advanced if enabled.
-     B:"Ore Dictionary Names Shift"=false
- 
-`
-				);
-			}
-		}
-	],
-	Fun: []
-};
+function getDefinedTweaks(): Map<TweakId, TweakDef> {
+	const allTweaks: Map<TweakId, TweakDef> = new Map();
+	const idGroupRegex = /tweaks\/([^/]+)\/([^/]+)\.ts$/;
+	const modules = import.meta.glob('./tweaks/*/*.ts', { eager: true });
+	for (const [path, mod] of Object.entries(modules)) {
+		const tweak = mod.default as ReturnType<typeof defineTweak>;
+		console.assert(tweak.defineTweak);
+		// extract group and id from path
+		const [, group, rawId] = idGroupRegex.exec(path)!;
+		const id = `${group}_${rawId}` as const;
+		allTweaks.set(id, { ...tweak, id: id, group: group });
+	}
+	return allTweaks;
+}
 
 const TWEAKS: TweakDef[] = [
 	{
@@ -172,9 +74,5 @@ const TWEAKS: TweakDef[] = [
 	}
 ];
 
+export const ALL_TWEAKS = getDefinedTweaks();
 // export const ALL_TWEAKS = new Map(TWEAKS.map((t) => [t.id, t]));
-export const ALL_TWEAKS = new Map(
-	Object.entries(tweaks).flatMap(([group, tweaks]) =>
-		tweaks.map((t) => [t.id, { ...t, group } as TweakDef])
-	)
-);
