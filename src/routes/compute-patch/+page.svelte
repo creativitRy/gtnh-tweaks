@@ -47,7 +47,9 @@
 				{/each}
 			</select>
 		</div>
-		<button on:click={async () => (prevText = await loadFile(filePath, $selectedVersion))}>Load</button>
+		<button on:click={async () => (prevText = await loadFile(filePath, $selectedVersion))}
+			>Load</button
+		>
 		<button on:click={() => (computedText = computePatch(prevText, newText))}>Compute</button>
 		<button
 			on:click={() => {
@@ -61,52 +63,53 @@
 </div>
 
 <style lang="scss">
-  .layout {
-    height: 100vh;
-    display: flex;
-    flex-direction: row;
-  }
+	.layout {
+		height: 100vh;
+		display: flex;
+		flex-direction: row;
+	}
 
-  .panel {
-    flex: 0 0 calc(100% / 3);
-    min-width: 0; // prevents textarea overflow in flex children
-    height: 100%;
-    display: flex;
-    flex-direction: column;
+	.panel {
+		flex: 0 0 calc(100% / 3);
+		min-width: 0; // prevents textarea overflow in flex children
+		height: 100%;
+		display: flex;
+		flex-direction: column;
 
-    padding: 12px;
-    box-sizing: border-box;
+		padding: 12px;
+		box-sizing: border-box;
 
-    border-right: 1px solid #ddd;
+		border-right: 1px solid #ddd;
 
-    &:last-child {
-      border-right: 0;
-    }
+		&:last-child {
+			border-right: 0;
+		}
 
-    p {
-      margin: 0 0 8px;
-      font-weight: 600;
-    }
+		p {
+			margin: 0 0 8px;
+			font-weight: 600;
+		}
 
-    button {
-      margin-right: 8px;
-    }
+		button {
+			margin-right: 8px;
+		}
 
-    textarea {
-      flex: 1 1 auto;
-      width: 100%;
-      min-height: 0;
-      box-sizing: border-box;
+		textarea {
+			flex: 1 1 auto;
+			width: 100%;
+			min-height: 0;
+			box-sizing: border-box;
 
-      padding: 10px;
-      border: 1px solid #ccc;
-      border-radius: 6px;
+			padding: 10px;
+			border: 1px solid #ccc;
+			border-radius: 6px;
 
-      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New',
-      monospace;
-      line-height: 1.35;
+			font-family:
+				ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New',
+				monospace;
+			line-height: 1.35;
 
-      resize: none;
-    }
-  }
+			resize: none;
+		}
+	}
 </style>

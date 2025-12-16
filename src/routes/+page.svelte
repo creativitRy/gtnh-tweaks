@@ -98,7 +98,14 @@
 				<div class="filter-check">
 					<label>
 						<input type="checkbox" bind:checked={$stargateFilter} />
-						Stargate Rules Only
+						Stargate
+						<a
+							href="https://gtnh.miraheze.org/wiki/Stargate#Discord_Role_Requirements"
+							target="_blank">Ru</a
+						><a
+							href="https://docs.google.com/document/d/1Iww1FNLkCuun6s6LW7Q6_1Z1aldtxYeRxYOeq_P-vK8/edit?tab=t.0"
+							target="_blank">les</a
+						> (SG) Only
 					</label>
 				</div>
 
@@ -128,6 +135,11 @@
 
 	<main class="grid">
 		<section class="panel left">
+			<div class="sticky-header">
+				<h2>
+					All Tweaks
+				</h2>
+			</div>
 			{#each leftGroupEntries as [group, groupTweaks] (group)}
 				<div class="accordion">
 					<button class="acc-header" on:click={() => toggleGroup(group)}>
@@ -192,6 +204,7 @@
 			</div>
 
 			<footer>
+				<!--				TODO: zip generation progress bar modal -->
 				<button
 					class="btn-primary"
 					disabled={Object.keys($selections).length === 0 || hasAnyErrors}
@@ -296,7 +309,6 @@
 	}
 
 	.sticky-header {
-		padding-bottom: 1rem;
 		border-bottom: 1px solid var(--border);
 		margin-bottom: 1rem;
 
