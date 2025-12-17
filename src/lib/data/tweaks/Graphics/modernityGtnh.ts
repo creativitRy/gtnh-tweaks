@@ -3,7 +3,7 @@ import { defineTweak } from '$lib/tweak';
 // noinspection JSUnusedGlobalSymbols
 export default defineTweak({
   name: 'Modernity-GTNH (Resourcepack)',
-  description: 'Resourcepack for modern textures.',
+  description: 'Resourcepack for modern textures. You need to select this resource pack manually ingame.',
   icon: { kind: 'image', src: 'icons/modernity-gtnh.png', alt: 'modernity-gtnh' },
   supportedVersions: () => true,
   followsStargateRules: true,
@@ -19,6 +19,5 @@ export default defineTweak({
       url: 'https://github.com/ABKQPO/Modernity-GTNH/releases/download/v1.5.9/MyCTMLib-v1.2.5_28x.jar',
     },
   ],
-  onDownload: async (config, downloadCtx) => {
-  },
+  onDownload: async (config, downloadCtx) => {},
 });

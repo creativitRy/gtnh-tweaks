@@ -3,7 +3,7 @@ import { defineTweak } from '$lib/tweak';
 // noinspection JSUnusedGlobalSymbols
 export default defineTweak({
   name: 'Complementary Shaders - Reimagined',
-  description: 'Shader, with tweaks to support hardcore darkness.',
+  description: 'Shader, with tweaks to support hardcore darkness. You need to select this shader manually ingame.',
   icon: { kind: 'image', src: 'icons/complementary.webp', alt: 'complementary' },
   supportedVersions: () => true,
   followsStargateRules: true,
