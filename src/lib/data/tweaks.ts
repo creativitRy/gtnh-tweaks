@@ -8,8 +8,8 @@ function getDefinedTweaks(): Map<TweakId, TweakDef> {
 		const tweak = mod.default as ReturnType<typeof defineTweak>;
 		console.assert(tweak.defineTweak);
 		// extract group and id from path
-		const [, group, rawId] = idGroupRegex.exec(path)!;
-		const id = `${group}_${rawId}` as const;
+		const [, group, id] = idGroupRegex.exec(path)!;
+		if (allTweaks.has(id)) throw new Error(`Duplicate tweak ID: ${id}`);
 		allTweaks.set(id, { ...tweak, id: id, group: group });
 	}
 	return allTweaks;
