@@ -168,7 +168,7 @@ export async function download(version: string, selections: SelectedTweaksMap) {
     saveAs(blob, 'gtnh-tweaks.zip');
   } catch (e) {
     console.error(e);
-    alert('Failed to generate download: ' + e);
+    alert('Failed to generate download: ' + String(e).split('\n', 2)[0]);
   } finally {
     // Hide the modal after a short tick to let UI show 100% momentarily
     setTimeout(() => zipProgress.set(undefined), 1000);

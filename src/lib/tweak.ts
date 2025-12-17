@@ -1,6 +1,7 @@
 import JSZip from 'jszip';
 import { applyPatch, type StructuredPatch } from 'diff';
 import type { Writable } from 'svelte/store';
+import { ServerRanks } from '$lib/serverRanks';
 
 export type TweakId = string;
 export type VersionId = string;
@@ -19,6 +20,22 @@ export type SliderConfig = {
   default: number;
   min: number;
   max: number;
+  step: number;
+};
+
+export type TextBoxConfig = {
+  type: 'textbox';
+  label: string;
+  default: string;
+};
+
+export type NumberBoxConfig = {
+  type: 'number';
+  label: string;
+  default: number;
+  min: number;
+  max: number;
+  step: number;
 };
 
 export type SelectConfig = {
@@ -28,7 +45,7 @@ export type SelectConfig = {
   options: string[];
 };
 
-export type ConfigSchema = CheckboxConfig | SliderConfig | SelectConfig;
+export type ConfigSchema = CheckboxConfig | SliderConfig | TextBoxConfig | NumberBoxConfig | SelectConfig;
 
 export type TweakIcon = { kind: 'emoji'; value: string } | { kind: 'image'; src: string; alt?: string };
 
@@ -90,9 +107,60 @@ export class DownloadContext {
       if (!response.ok) throw new Error(`Failed to fetch ${url}: ${response.statusText}`);
       prev = await response.text();
     }
-    const patchResult = applyPatch(prev, patch);
-    if (patchResult === false) throw new Error(`Failed to apply patch to ${filePath}`);
+    const patchResult = applyPatch(prev, patch, {fuzzFactor: 16, autoConvertLineEndings: true});
+    if (patchResult === false) {
+      throw new Error(`Failed to apply patch to ${filePath}.\nPatch:\n${patch}\n\nFile:\n${prev}`);
+    }
     this.modifiedFiles.set(filePath, patchResult);
+  }
+
+  /**
+   *
+   * @param rankName if undefined, change all ranks
+   * @param key
+   * @param value value to set. If undefined, remove the key(s).
+   */
+  patchServerRanks(rankName: string | undefined, key: string, value: string | undefined): void {
+    const filePath = '.minecraft/serverutilities/server/ranks.txt';
+    let prevRaw = this.modifiedFiles.get(filePath);
+    if (prevRaw === undefined) {
+      prevRaw = `// For more info visit https://github.com/GTNewHorizons/ServerUtilities
+
+[player]
+default_player_rank: true
+power: 1
+serverutilities.claims.max_chunks: 100
+serverutilities.chunkloader.max_chunks: 50
+serverutilities.homes.max: 1
+serverutilities.homes.warmup: 5s
+serverutilities.homes.cooldown: 5s
+serverutilities.homes.cross_dim: false
+
+[vip]
+power: 20
+serverutilities.chat.name_format: <&bVIP {name}&r>
+serverutilities.claims.max_chunks: 500
+serverutilities.chunkloader.max_chunks: 100
+serverutilities.homes.max: 1
+serverutilities.homes.warmup: 0s
+serverutilities.homes.cooldown: 1s
+serverutilities.homes.cross_dim: false
+
+[admin]
+default_op_rank: true
+power: 100
+serverutilities.chat.name_format: <&2{name}&r>
+serverutilities.claims.max_chunks: 1000
+serverutilities.chunkloader.max_chunks: 1000
+serverutilities.claims.bypass_limits: true
+serverutilities.homes.max: 1
+serverutilities.homes.warmup: 0s
+serverutilities.homes.cooldown: 0s
+serverutilities.homes.cross_dim: false`;
+    }
+    const ranks = new ServerRanks(prevRaw);
+    ranks.patch(rankName, key, value);
+    this.modifiedFiles.set(filePath, ranks.generate());
   }
 
   async generate(zipProgress: Writable<number | undefined>, part1Progress: number): Promise<Blob> {
