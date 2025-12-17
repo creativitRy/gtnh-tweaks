@@ -148,7 +148,7 @@
               {#each [...groupTweaks].sort((a, b) => a.name
                   .toLowerCase()
                   .localeCompare(b.name.toLowerCase())) as tweak (tweak.id)}
-                {#if !$stargateFilter || tweak.stargateState !== false}
+                {#if !$stargateFilter || tweak.followsStargateRules !== false}
                   <TweakCard {tweak} on:click={() => toggleTweak(tweak.id)} />
                 {/if}
               {/each}

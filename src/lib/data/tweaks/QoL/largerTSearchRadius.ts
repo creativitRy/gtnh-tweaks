@@ -15,7 +15,7 @@ export default defineTweak({
     },
   },
   supportedVersions: () => true,
-  stargateState: config => parseInt(config.radius as string) <= 32,
+  followsStargateRules: config => parseInt(config.radius as string) <= 32,
   onDownload: async (config, downloadCtx) => {
     await downloadCtx.patchFile(
       '.minecraft/config/findit.cfg',

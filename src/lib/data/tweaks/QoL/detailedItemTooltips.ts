@@ -7,7 +7,7 @@ export default defineTweak({
     'Adds detailed tooltips to itmes on hover, such as burn time, registry name, etc. Some are only visible after pressing F3+H.',
   icon: { kind: 'emoji', value: '💡' },
   supportedVersions: () => true,
-  stargateState: true,
+  followsStargateRules: true,
   onDownload: async (config, downloadCtx) => {
     await downloadCtx.patchFile(
       '.minecraft/config/neiintegration.cfg',

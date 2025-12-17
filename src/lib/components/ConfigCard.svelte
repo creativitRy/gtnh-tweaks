@@ -7,7 +7,7 @@
 
   $: config = $selections[tweak.id];
   $: errors = $validationState[tweak.id] || [];
-  $: sgState = typeof tweak.stargateState === 'boolean' ? tweak.stargateState : tweak.stargateState(config);
+  $: sgState = typeof tweak.followsStargateRules === 'boolean' ? tweak.followsStargateRules : tweak.followsStargateRules(config);
 
   $: statusClass = errors.length > 0 ? 'error' : !sgState && !$stargateFilter ? 'warning' : 'ok';
 </script>

@@ -6,7 +6,7 @@
   export let tweak: TweakDef;
 
   $: isSelected = !!$selections[tweak.id];
-  $: sgState = tweak.stargateState === true ? true : tweak.stargateState === false ? false : undefined;
+  $: sgState = tweak.followsStargateRules === true ? true : tweak.followsStargateRules === false ? false : undefined;
 </script>
 
 <BaseCard

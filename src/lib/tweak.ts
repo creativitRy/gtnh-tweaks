@@ -42,7 +42,7 @@ export interface TweakDef {
   incompatibleWith?: TweakId[];
 
   supportedVersions: (v: VersionId) => boolean;
-  stargateState: ((config: Record<string, ConfigValue>) => boolean) | boolean;
+  followsStargateRules: ((config: Record<string, ConfigValue>) => boolean) | boolean;
 
   filesToDelete?: (modpackVersion: string, config: Record<string, ConfigValue>) => string[];
   modsToDownload?: (

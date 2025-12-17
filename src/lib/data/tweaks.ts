@@ -29,7 +29,7 @@ const TWEAKS: TweakDef[] = [
       level: { type: 'slider', label: 'Optimization Level', min: 1, max: 5, default: 3 },
     },
     supportedVersions: () => true,
-    stargateState: true,
+    followsStargateRules: true,
     onDownload: async (config, downloadCtx) => {},
   },
   {
@@ -39,7 +39,7 @@ const TWEAKS: TweakDef[] = [
     icon: { kind: 'emoji', value: '🌈' },
     group: 'Graphics',
     supportedVersions: v => v === '2.7.0', // Only new versions
-    stargateState: true,
+    followsStargateRules: true,
     onDownload: async (config, downloadCtx) => {},
   },
   {
@@ -57,7 +57,7 @@ const TWEAKS: TweakDef[] = [
       },
     },
     supportedVersions: () => true,
-    stargateState: false,
+    followsStargateRules: false,
     onDownload: async (config, downloadCtx) => {},
   },
   {
@@ -71,7 +71,7 @@ const TWEAKS: TweakDef[] = [
     },
     supportedVersions: () => true,
     // Dynamic Stargate Rule
-    stargateState: cfg => !cfg.allowInDungeons,
+    followsStargateRules: cfg => !cfg.allowInDungeons,
     onDownload: async (config, downloadCtx) => {},
   },
 ];

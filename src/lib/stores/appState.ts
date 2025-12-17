@@ -61,7 +61,7 @@ export const validationState = derived([selections, stargateFilter, selectedVers
       });
     }
 
-    const sgState = typeof tweak.stargateState === 'boolean' ? tweak.stargateState : tweak.stargateState(config);
+    const sgState = typeof tweak.followsStargateRules === 'boolean' ? tweak.followsStargateRules : tweak.followsStargateRules(config);
     if ($sgFilter && !sgState) {
       errors[id].push('Violates Stargate Rules (Filter Active)');
     }
