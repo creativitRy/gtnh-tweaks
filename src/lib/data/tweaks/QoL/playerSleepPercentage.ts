@@ -8,7 +8,7 @@ export default defineTweak({
     'Configure percentage of players required to sleep for the server to tick (default: 50%). ' +
     'Set to 0 if only 1 player needs to sleep.',
   icon: { kind: 'emoji', value: '🛌' },
-  supportedVersions: [gtnhVersionIds.v2_8_0],
+  supportedVersions: [gtnhVersionIds.v2_8_0, gtnhVersionIds.v2_8_1, gtnhVersionIds.v2_8_2, gtnhVersionIds.v2_8_3],
   followsStargateRules: true,
   configs: {
     percentage: {

@@ -8,7 +8,7 @@ export default defineTweak({
     'GregTech machines can explode based on various conditions. Control those conditions using this tweak.\n' +
     "To follow Stargate rules, only use this tweak as an alternative to rollbacks and don't abuse it!",
   icon: { kind: 'emoji', value: '💣' },
-  supportedVersions: [gtnhVersionIds.v2_8_0],
+  supportedVersions: [gtnhVersionIds.v2_8_0, gtnhVersionIds.v2_8_1, gtnhVersionIds.v2_8_2, gtnhVersionIds.v2_8_3],
   followsStargateRules: true,
   configs: {
     tweak: {

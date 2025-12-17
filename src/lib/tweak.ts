@@ -145,43 +145,14 @@ export class DownloadContext {
    * @param key
    * @param value value to set. If undefined, remove the key(s).
    */
-  patchServerRanks(rankName: string | undefined, key: string, value: string | undefined): void {
+  async patchServerRanks(rankName: string | undefined, key: string, value: string | undefined): Promise<void> {
     const filePath = '.minecraft/serverutilities/server/ranks.txt';
     let prevRaw = this.modifiedFiles.get(filePath);
     if (prevRaw === undefined) {
-      prevRaw = `// For more info visit https://github.com/GTNewHorizons/ServerUtilities
-
-[player]
-default_player_rank: true
-power: 1
-serverutilities.claims.max_chunks: 100
-serverutilities.chunkloader.max_chunks: 50
-serverutilities.homes.max: 1
-serverutilities.homes.warmup: 5s
-serverutilities.homes.cooldown: 5s
-serverutilities.homes.cross_dim: false
-
-[vip]
-power: 20
-serverutilities.chat.name_format: <&bVIP {name}&r>
-serverutilities.claims.max_chunks: 500
-serverutilities.chunkloader.max_chunks: 100
-serverutilities.homes.max: 1
-serverutilities.homes.warmup: 0s
-serverutilities.homes.cooldown: 1s
-serverutilities.homes.cross_dim: false
-
-[admin]
-default_op_rank: true
-power: 100
-serverutilities.chat.name_format: <&2{name}&r>
-serverutilities.claims.max_chunks: 1000
-serverutilities.chunkloader.max_chunks: 1000
-serverutilities.claims.bypass_limits: true
-serverutilities.homes.max: 1
-serverutilities.homes.warmup: 0s
-serverutilities.homes.cooldown: 0s
-serverutilities.homes.cross_dim: false`;
+      const url = `gtnh/${this.version}/${filePath.slice('.minecraft/'.length)}`;
+      const response = await fetch(url);
+      if (!response.ok) throw new Error(`Failed to fetch ${url}: ${response.statusText}`);
+      prevRaw = await response.text();
     }
     const ranks = new ServerRanks(prevRaw);
     ranks.patch(rankName, key, value);

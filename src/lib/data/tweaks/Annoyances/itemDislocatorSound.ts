@@ -6,7 +6,7 @@ export default defineTweak({
   name: 'Disable Item Dislocator Sound',
   description: "Disable sound made by Draconic Evolution's Item Dislocator (magnet)",
   icon: { kind: 'image', src: 'icons/ItemDislocator.png', alt: 'Item Dislocator' },
-  supportedVersions: [gtnhVersionIds.v2_8_0],
+  supportedVersions: [gtnhVersionIds.v2_8_0, gtnhVersionIds.v2_8_1, gtnhVersionIds.v2_8_2, gtnhVersionIds.v2_8_3],
   followsStargateRules: true,
   onDownload: async (config, downloadCtx) => {
     await downloadCtx.patchFile(

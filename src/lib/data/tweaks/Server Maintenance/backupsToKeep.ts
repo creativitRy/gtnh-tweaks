@@ -6,7 +6,7 @@ export default defineTweak({
   name: 'Backups to Keep',
   description: 'Configure number of backup files to keep before deleting old ones (default: 12).',
   icon: { kind: 'emoji', value: '♻️️' },
-  supportedVersions: [gtnhVersionIds.v2_8_0],
+  supportedVersions: [gtnhVersionIds.v2_8_0, gtnhVersionIds.v2_8_1, gtnhVersionIds.v2_8_2, gtnhVersionIds.v2_8_3],
   followsStargateRules: true,
   configs: {
     amount: {

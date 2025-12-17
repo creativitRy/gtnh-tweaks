@@ -6,7 +6,7 @@ export default defineTweak({
   name: 'Claim Chunks',
   description: 'Allow claiming chunks to do stuff like chunk loading, claimed chunks disabling explosions, etc.',
   icon: { kind: 'emoji', value: '🗺️' },
-  supportedVersions: [gtnhVersionIds.v2_8_0],
+  supportedVersions: [gtnhVersionIds.v2_8_0, gtnhVersionIds.v2_8_1, gtnhVersionIds.v2_8_2, gtnhVersionIds.v2_8_3],
   followsStargateRules: true,
   configs: {
     max: {
@@ -37,7 +37,7 @@ export default defineTweak({
     },
   },
   onDownload: async (config, downloadCtx) => {
-    downloadCtx.patchServerRanks(undefined, 'serverutilities.claims.max_chunks', String(config.max));
+    await downloadCtx.patchServerRanks(undefined, 'serverutilities.claims.max_chunks', String(config.max));
     await downloadCtx.patchFile(
       '.minecraft/serverutilities/serverutilities.cfg',
       `Index: .minecraft/serverutilities/serverutilities.cfg
@@ -78,7 +78,7 @@ export default defineTweak({
 `,
       );
     } else {
-      downloadCtx.patchServerRanks(undefined, 'serverutilities.chunkloader.max_chunks', String(config.chunkLoad));
+      await downloadCtx.patchServerRanks(undefined, 'serverutilities.chunkloader.max_chunks', String(config.chunkLoad));
     }
     if (config.explosion) {
       await downloadCtx.patchFile(

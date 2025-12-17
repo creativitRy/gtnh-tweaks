@@ -7,7 +7,7 @@ export default defineTweak({
   description:
     'Many machines cause pollution. But pollution currently only causes annoying effects rather than real reasons to act against it. This tweak turns off pollution mechanics entirely.',
   icon: { kind: 'emoji', value: '🤢' },
-  supportedVersions: [gtnhVersionIds.v2_8_0],
+  supportedVersions: [gtnhVersionIds.v2_8_0, gtnhVersionIds.v2_8_1, gtnhVersionIds.v2_8_2, gtnhVersionIds.v2_8_3],
   followsStargateRules: true,
   onDownload: async (config, downloadCtx) => {
     await downloadCtx.patchFile(

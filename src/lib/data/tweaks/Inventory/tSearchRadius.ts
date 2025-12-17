@@ -17,7 +17,7 @@ export default defineTweak({
       step: 1,
     },
   },
-  supportedVersions: [gtnhVersionIds.v2_8_0],
+  supportedVersions: [gtnhVersionIds.v2_8_0, gtnhVersionIds.v2_8_1, gtnhVersionIds.v2_8_2, gtnhVersionIds.v2_8_3],
   followsStargateRules: config => parseInt(config.radius as string) <= 32,
   onDownload: async (config, downloadCtx) => {
     await downloadCtx.patchFile(

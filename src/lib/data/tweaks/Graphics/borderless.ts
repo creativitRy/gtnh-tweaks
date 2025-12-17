@@ -6,7 +6,7 @@ export default defineTweak({
   name: 'Borderless Windowed Fullscreen',
   description: 'Replaces the fullscreen mode with a borderless windowed mode.',
   icon: { kind: 'emoji', value: '🖥️' },
-  supportedVersions: [gtnhVersionIds.v2_8_0],
+  supportedVersions: [gtnhVersionIds.v2_8_0, gtnhVersionIds.v2_8_1, gtnhVersionIds.v2_8_2, gtnhVersionIds.v2_8_3],
   followsStargateRules: true,
   onDownload: async (config, downloadCtx) => {
     await downloadCtx.patchFile(

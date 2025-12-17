@@ -6,7 +6,7 @@ export default defineTweak({
   name: 'Backup Timer',
   description: 'Configure how frequently backup should run (default: 0.5h).',
   icon: { kind: 'emoji', value: '⏲️' },
-  supportedVersions: [gtnhVersionIds.v2_8_0],
+  supportedVersions: [gtnhVersionIds.v2_8_0, gtnhVersionIds.v2_8_1, gtnhVersionIds.v2_8_2, gtnhVersionIds.v2_8_3],
   followsStargateRules: true,
   configs: {
     timer: {

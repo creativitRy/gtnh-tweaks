@@ -6,7 +6,7 @@ export default defineTweak({
   name: 'Teleport Commands (FTB Essentials)',
   description: 'Enable teleport commands like home and tpa.',
   icon: { kind: 'emoji', value: '🌀' },
-  supportedVersions: [gtnhVersionIds.v2_8_0],
+  supportedVersions: [gtnhVersionIds.v2_8_0, gtnhVersionIds.v2_8_1, gtnhVersionIds.v2_8_2, gtnhVersionIds.v2_8_3],
   followsStargateRules: cfg => !cfg.back || +cfg.backCooldown >= 30,
   configs: {
     back: {
@@ -120,34 +120,34 @@ export default defineTweak({
 `,
     );
     if (config.back) {
-      downloadCtx.patchServerRanks(undefined, 'serverutilities.back.warmup', `${config.warmup}s`);
-      downloadCtx.patchServerRanks(undefined, 'serverutilities.back.cooldown', `${config.backCooldown}s`);
-      downloadCtx.patchServerRanks(undefined, 'serverutilities.back.back', 'true');
-      downloadCtx.patchServerRanks(undefined, 'serverutilities.back.home', 'true');
-      downloadCtx.patchServerRanks(undefined, 'serverutilities.back.spawn', 'true');
-      downloadCtx.patchServerRanks(undefined, 'serverutilities.back.tpa', 'true');
-      downloadCtx.patchServerRanks(undefined, 'serverutilities.back.warp', 'true');
+      await downloadCtx.patchServerRanks(undefined, 'serverutilities.back.warmup', `${config.warmup}s`);
+      await downloadCtx.patchServerRanks(undefined, 'serverutilities.back.cooldown', `${config.backCooldown}s`);
+      await downloadCtx.patchServerRanks(undefined, 'serverutilities.back.back', 'true');
+      await downloadCtx.patchServerRanks(undefined, 'serverutilities.back.home', 'true');
+      await downloadCtx.patchServerRanks(undefined, 'serverutilities.back.spawn', 'true');
+      await downloadCtx.patchServerRanks(undefined, 'serverutilities.back.tpa', 'true');
+      await downloadCtx.patchServerRanks(undefined, 'serverutilities.back.warp', 'true');
     }
     if (+config.home > 0) {
-      downloadCtx.patchServerRanks(undefined, 'serverutilities.home.max', String(config.home));
-      downloadCtx.patchServerRanks(undefined, 'serverutilities.home.warmup', `${config.warmup}s`);
-      downloadCtx.patchServerRanks(undefined, 'serverutilities.home.cooldown', `${config.cooldown}s`);
-      downloadCtx.patchServerRanks(undefined, 'serverutilities.home.cross_dim', 'true');
+      await downloadCtx.patchServerRanks(undefined, 'serverutilities.home.max', String(config.home));
+      await downloadCtx.patchServerRanks(undefined, 'serverutilities.home.warmup', `${config.warmup}s`);
+      await downloadCtx.patchServerRanks(undefined, 'serverutilities.home.cooldown', `${config.cooldown}s`);
+      await downloadCtx.patchServerRanks(undefined, 'serverutilities.home.cross_dim', 'true');
     }
     if (config.spawn) {
-      downloadCtx.patchServerRanks(undefined, 'serverutilities.spawn.warmup', `${config.warmup}s`);
-      downloadCtx.patchServerRanks(undefined, 'serverutilities.spawn.cooldown', `${config.cooldown}s`);
-      downloadCtx.patchServerRanks(undefined, 'serverutilities.spawn.cross_dim', 'true');
+      await downloadCtx.patchServerRanks(undefined, 'serverutilities.spawn.warmup', `${config.warmup}s`);
+      await downloadCtx.patchServerRanks(undefined, 'serverutilities.spawn.cooldown', `${config.cooldown}s`);
+      await downloadCtx.patchServerRanks(undefined, 'serverutilities.spawn.cross_dim', 'true');
     }
     if (config.tpa) {
-      downloadCtx.patchServerRanks(undefined, 'serverutilities.tpa.warmup', `${config.warmup}s`);
-      downloadCtx.patchServerRanks(undefined, 'serverutilities.tpa.cooldown', `${config.cooldown}s`);
-      downloadCtx.patchServerRanks(undefined, 'serverutilities.tpa.cross_dim', 'true');
+      await downloadCtx.patchServerRanks(undefined, 'serverutilities.tpa.warmup', `${config.warmup}s`);
+      await downloadCtx.patchServerRanks(undefined, 'serverutilities.tpa.cooldown', `${config.cooldown}s`);
+      await downloadCtx.patchServerRanks(undefined, 'serverutilities.tpa.cross_dim', 'true');
     }
     if (config.warp) {
-      downloadCtx.patchServerRanks(undefined, 'serverutilities.warp.warmup', `${config.warmup}s`);
-      downloadCtx.patchServerRanks(undefined, 'serverutilities.warp.cooldown', `${config.cooldown}s`);
-      downloadCtx.patchServerRanks(undefined, 'serverutilities.warp.cross_dim', 'true');
+      await downloadCtx.patchServerRanks(undefined, 'serverutilities.warp.warmup', `${config.warmup}s`);
+      await downloadCtx.patchServerRanks(undefined, 'serverutilities.warp.cooldown', `${config.cooldown}s`);
+      await downloadCtx.patchServerRanks(undefined, 'serverutilities.warp.cross_dim', 'true');
     }
   },
 });
