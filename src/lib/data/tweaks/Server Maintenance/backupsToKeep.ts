@@ -4,7 +4,7 @@ import { defineTweak } from '$lib/tweak';
 export default defineTweak({
   name: 'Backups to Keep',
   description: 'Configure number of backup files to keep before deleting old ones (default: 12).',
-  icon: { kind: 'emoji', value: '⏲️' },
+  icon: { kind: 'emoji', value: '♻️️' },
   supportedVersions: () => true,
   followsStargateRules: true,
   configs: {

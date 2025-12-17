@@ -9,11 +9,12 @@ import {
   type TweakDef,
   type TweakId,
 } from '$lib/tweak';
-import LZString from 'lz-string';
 import { browser } from '$app/environment';
 import { saveAs } from 'file-saver';
 import { replaceState } from '$app/navigation';
 import { tick } from 'svelte';
+import brotliPromise from 'brotli-wasm';
+import { base64ToBytes, bytesToBase64 } from 'byte-base64';
 
 export const selectedVersion = writable<string>(GTNH_VERSIONS[0].id);
 export const stargateFilter = writable<boolean>(false);
@@ -61,7 +62,8 @@ export const validationState = derived([selections, stargateFilter, selectedVers
       });
     }
 
-    const sgState = typeof tweak.followsStargateRules === 'boolean' ? tweak.followsStargateRules : tweak.followsStargateRules(config);
+    const sgState =
+      typeof tweak.followsStargateRules === 'boolean' ? tweak.followsStargateRules : tweak.followsStargateRules(config);
     if ($sgFilter && !sgState) {
       errors[id].push('Violates Stargate Rules (Filter Active)');
     }
@@ -104,21 +106,29 @@ export function updateUrl() {
   const v = get(selectedVersion);
   const sg = get(stargateFilter);
 
+  updateUrlImpl(s, v, sg).then(r => {});
+}
+
+const textEncoder = new TextEncoder();
+const textDecoder = new TextDecoder('utf-8');
+async function updateUrlImpl(s: SelectedTweaksMap, v: string, sg: boolean): Promise<void> {
   const json = JSON.stringify(s);
-  const compressed = LZString.compressToEncodedURIComponent(json);
+  const brotli = await brotliPromise;
+  const compressedBrotli = bytesToBase64(brotli.compress(textEncoder.encode(json), { quality: 11 }));
+  // const compressed = LZString.compressToEncodedURIComponent(json);
+  // console.log(compressedBrotli.length, compressed.length);
 
   const params = new URLSearchParams();
   params.set('v', v);
   if (sg) params.set('sg', '1');
-  params.set('q', compressed);
+  params.set('q', compressedBrotli);
 
   const newUrl = `${window.location.pathname}?${params.toString()}`;
-  tick().then(() => {
-    replaceState(newUrl, {});
-  });
+  await tick();
+  replaceState(newUrl, {});
 }
 
-export function loadFromUrl() {
+export async function loadFromUrl() {
   if (!browser) return;
   const params = new URLSearchParams(window.location.search);
 
@@ -130,8 +140,10 @@ export function loadFromUrl() {
 
   const q = params.get('q');
   if (q) {
+    const brotli = await brotliPromise;
     try {
-      const json = LZString.decompressFromEncodedURIComponent(q);
+      const json = textDecoder.decode(brotli.decompress(base64ToBytes(q)));
+      // const json = LZString.decompressFromEncodedURIComponent(q);
       if (json) {
         const parsedSelections = JSON.parse(json) as SelectedTweaksMap;
         const sanitizedSelections: SelectedTweaksMap = {};

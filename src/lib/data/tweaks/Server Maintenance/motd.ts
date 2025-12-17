@@ -3,7 +3,7 @@ import { defineTweak } from '$lib/tweak';
 // noinspection JSUnusedGlobalSymbols
 export default defineTweak({
   name: 'Server MOTD',
-  description: 'Enables message of the day. This will be logged when player joins the server.',
+  description: 'Enables message of the day. This will be displayed when player joins the server.',
   icon: { kind: 'emoji', value: '💬' },
   supportedVersions: () => true,
   followsStargateRules: true,

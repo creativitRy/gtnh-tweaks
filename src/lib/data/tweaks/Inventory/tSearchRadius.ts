@@ -8,10 +8,12 @@ export default defineTweak({
   icon: { kind: 'emoji', value: '🔍' },
   configs: {
     radius: {
-      type: 'select',
+      type: 'number',
       label: 'Search Radius',
-      default: '24',
-      options: ['24', '32', '64'],
+      default: 24,
+      min: 17,
+      max: 128,
+      step: 1,
     },
   },
   supportedVersions: () => true,

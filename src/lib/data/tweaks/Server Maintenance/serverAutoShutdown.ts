@@ -3,10 +3,17 @@ import { defineTweak } from '$lib/tweak';
 // noinspection JSUnusedGlobalSymbols
 export default defineTweak({
   name: 'Server Auto Shutdown',
-  description: 'Server will automatically shut down once per day at 1PM. Why 1PM? IDK lol.',
+  description: 'Server will automatically shut down once per day. Fixes memory leaks and stuff.',
   icon: { kind: 'emoji', value: '🔌' },
   supportedVersions: () => true,
   followsStargateRules: true,
+  configs: {
+    time: {
+      type: 'textbox',
+      label: 'Shutdown Time',
+      default: '13:00',
+    },
+  },
   onDownload: async (config, downloadCtx) => {
     await downloadCtx.patchFile(
       '.minecraft/serverutilities/serverutilities.cfg',
@@ -31,7 +38,7 @@ export default defineTweak({
      S:times <
 -        04:00
 -        16:00
-+        13:00
++        ${config.time}
       >
  }
  
