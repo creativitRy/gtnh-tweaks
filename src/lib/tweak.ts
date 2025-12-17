@@ -2,6 +2,7 @@ import JSZip from 'jszip';
 import { applyPatch, type StructuredPatch } from 'diff';
 import type { Writable } from 'svelte/store';
 import { ServerRanks } from '$lib/serverRanks';
+import { DefaultKeys } from '$lib/defaultkeys';
 
 export type TweakId = string;
 export type VersionId = string;
@@ -78,7 +79,7 @@ export function defineTweak(
 
 export class DownloadContext {
   private zip: JSZip;
-  private createdFiles = new Set<string>();
+  private createdFiles = new Map<string, string | Blob>();
   private modifiedFiles = new Map<string, string>();
   private deletedFiles = new Set<string>();
 
@@ -92,8 +93,7 @@ export class DownloadContext {
 
   createRawFile(filePath: string, content: string | Blob): void {
     if (this.createdFiles.has(filePath)) throw new Error(`File ${filePath} was already created`);
-    this.createdFiles.add(filePath);
-    this.zip.file(filePath, content);
+    this.createdFiles.set(filePath, content);
   }
 
   async patchFile(filePath: string, patch: string | StructuredPatch | [StructuredPatch]): Promise<void> {
@@ -105,11 +105,27 @@ export class DownloadContext {
       if (!response.ok) throw new Error(`Failed to fetch ${url}: ${response.statusText}`);
       prev = await response.text();
     }
-    const patchResult = applyPatch(prev, patch, {fuzzFactor: 16, autoConvertLineEndings: true});
+    const patchResult = applyPatch(prev, patch, { fuzzFactor: 16, autoConvertLineEndings: true });
     if (patchResult === false) {
       throw new Error(`Failed to apply patch to ${filePath}.\nPatch:\n${patch}\n\nFile:\n${prev}`);
     }
     this.modifiedFiles.set(filePath, patchResult);
+  }
+
+  /**
+   *
+   * @param key
+   * @param value value to set (https://minecraft.wiki/w/Key_codes#Before_1.13). If undefined, remove the key(s).
+   */
+  patchDefaultKeybind(key: string, value: number | undefined): void {
+    const filePath = '.minecraft/config/defaultkeys.txt';
+    let prevRaw = this.createdFiles.get(filePath);
+    if (prevRaw === undefined) {
+      prevRaw = ``;
+    } else if (typeof prevRaw !== 'string') throw new Error(`Unexpected type for ${filePath}`);
+    const keybinds = new DefaultKeys(prevRaw);
+    keybinds.patch(key, value);
+    this.createdFiles.set(filePath, keybinds.generate());
   }
 
   /**
@@ -165,16 +181,22 @@ serverutilities.homes.cross_dim: false`;
     const FINAL_ZIP_PROGRESS = 0.9;
     const part2ProgressDelta = (FINAL_ZIP_PROGRESS - part1Progress) * 0.9;
     let i = 0;
+    const div = this.modifiedFiles.size + this.createdFiles.size;
     for (const [id, content] of this.modifiedFiles.entries()) {
       this.zip.file(id, content);
       i++;
-      zipProgress.set(Math.min(FINAL_ZIP_PROGRESS, part1Progress + (i * part2ProgressDelta) / this.modifiedFiles.size));
+      zipProgress.set(Math.min(FINAL_ZIP_PROGRESS, part1Progress + (i * part2ProgressDelta) / div));
+    }
+    for (const [id, content] of this.createdFiles.entries()) {
+      this.zip.file(id, content);
+      i++;
+      zipProgress.set(Math.min(FINAL_ZIP_PROGRESS, part1Progress + (i * part2ProgressDelta) / div));
     }
 
     for (const [id, tweakConfig] of Object.entries(this.selections)) {
       const tweak = this.ALL_TWEAKS.get(id)!;
       for (const mod of tweak.filesToDownload ? tweak.filesToDownload(this.version, tweakConfig) : []) {
-        this.createdFiles.add(`.minecraft/mods/${mod.filename}`);
+        this.createdFiles.set(`.minecraft/mods/${mod.filename}`, '');
       }
       for (const file of tweak.filesToDelete ? tweak.filesToDelete(this.version, tweakConfig) : []) {
         this.deletedFiles.add(file);
@@ -194,10 +216,10 @@ ${Object.keys(this.selections)
   .map(id => `  - ${id}`)
   .sort()
   .join('\n')}
-- Created Files:${[...this.createdFiles.values().map(f => `  - ${f}\n`)]
+- Created Files:${[...this.createdFiles.keys().map(f => `  - ${f}\n`)]
         .sort((a, b) => a.localeCompare(b, undefined, { numeric: true, sensitivity: 'base' }))
         .join('')}
-- Modified files:${[...this.modifiedFiles.values().map(f => `  - ${f}\n`)]
+- Modified files:${[...this.modifiedFiles.keys().map(f => `  - ${f}\n`)]
         .sort((a, b) => a.localeCompare(b, undefined, { numeric: true, sensitivity: 'base' }))
         .join('')}
 - Deleted Files:${[...this.deletedFiles.values().map(f => `  - ${f}\n`)]
