@@ -2,16 +2,16 @@ import { defineTweak } from '$lib/tweak';
 
 // noinspection JSUnusedGlobalSymbols
 export default defineTweak({
-	name: 'Detailed Item Tooltips',
-	description:
-		'Adds detailed tooltips to itmes on hover, such as burn time, registry name, etc. Some are only visible after pressing F3+H.',
-	icon: { kind: 'emoji', value: '💡' },
-	supportedVersions: () => true,
-	stargateState: true,
-	onDownload: async (config, downloadCtx) => {
-		await downloadCtx.patchFile(
-			'.minecraft/config/neiintegration.cfg',
-			`Index: .minecraft/config/neiintegration.cfg
+  name: 'Detailed Item Tooltips',
+  description:
+    'Adds detailed tooltips to itmes on hover, such as burn time, registry name, etc. Some are only visible after pressing F3+H.',
+  icon: { kind: 'emoji', value: '💡' },
+  supportedVersions: () => true,
+  stargateState: true,
+  onDownload: async (config, downloadCtx) => {
+    await downloadCtx.patchFile(
+      '.minecraft/config/neiintegration.cfg',
+      `Index: .minecraft/config/neiintegration.cfg
 ===================================================================
 --- .minecraft/config/neiintegration.cfg
 +++ .minecraft/config/neiintegration.cfg
@@ -62,7 +62,7 @@ export default defineTweak({
      # If Ore Dictionary names are enabled, they will only be shown if the Shift key is held. Effect stacks with Advanced if enabled.
      B:"Ore Dictionary Names Shift"=false
  
-`
-		);
-	}
+`,
+    );
+  },
 });

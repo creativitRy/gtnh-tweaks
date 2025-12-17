@@ -2,193 +2,186 @@
 @use './_tokens.scss' as *;
 
 @mixin focus-ring($color: $focus-ring) {
-	outline: 2px solid $color;
-	outline-offset: 2px;
+  outline: 2px solid $color;
+  outline-offset: 2px;
 }
 
 @mixin card {
-	background: var(--surface);
-	color: var(--text);
-	border: 1px solid var(--border);
-	border-radius: var(--radius-sm);
-	box-shadow: $shadow-sm;
+  background: var(--surface);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  box-shadow: $shadow-sm;
 }
 
 @mixin card-pane($padding: $space-4) {
-	width: 100%;
-	box-sizing: border-box;
-	padding: $padding;
-	margin-bottom: $space-3;
-	text-align: left;
-	transition:
-		background 0.2s ease,
-		border-color 0.2s ease;
+  width: 100%;
+  box-sizing: border-box;
+  padding: $padding;
+  margin-bottom: $space-3;
+  text-align: left;
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease;
 }
 
 @mixin card-accent($accent: var(--border)) {
-	border-left: 4px solid $accent;
+  border-left: 4px solid $accent;
 }
 
 @mixin card-selectable($selected-color: var(--success)) {
-	&.selected {
-		background: color-mix(in srgb, #{$selected-color} 8%, var(--surface));
-		border-color: $selected-color;
-	}
-	&.selected:hover,
-	&:is(button).selected:hover {
-		background: color-mix(in srgb, #{$selected-color} 8%, var(--surface));
-		border-color: $selected-color;
-	}
+  &.selected {
+    background: color-mix(in srgb, #{$selected-color} 8%, var(--surface));
+    border-color: $selected-color;
+  }
+  &.selected:hover,
+  &:is(button).selected:hover {
+    background: color-mix(in srgb, #{$selected-color} 8%, var(--surface));
+    border-color: $selected-color;
+  }
 }
 
 @mixin interactive-surface {
-	&:is(button) {
-		cursor: pointer;
-		display: block;
-	}
-	&:is(button):hover {
-		background: var(--surface-2);
-		border-color: var(--border-strong);
-	}
+  &:is(button) {
+    cursor: pointer;
+    display: block;
+  }
+  &:is(button):hover {
+    background: var(--surface-2);
+    border-color: var(--border-strong);
+  }
 }
 
 @mixin button-base {
-	display: inline-flex;
-	align-items: center;
-	justify-content: center;
-	gap: $space-2;
-	padding: $space-3 $space-4;
-	border-radius: var(--radius-sm);
-	border: 1px solid var(--border);
-	background: var(--surface-3);
-	color: var(--text);
-	font-weight: 600;
-	cursor: pointer;
-	transition:
-		background 0.15s ease,
-		border-color 0.15s ease,
-		color 0.15s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: $space-2;
+  padding: $space-3 $space-4;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  background: var(--surface-3);
+  color: var(--text);
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    background 0.15s ease,
+    border-color 0.15s ease,
+    color 0.15s ease;
 
-	&:hover {
-		background: color.scale($color-surface-3, $lightness: 5%);
-		border-color: var(--border-strong);
-	}
+  &:hover {
+    background: color.scale($color-surface-3, $lightness: 5%);
+    border-color: var(--border-strong);
+  }
 
-	&:disabled {
-		opacity: 0.6;
-		cursor: not-allowed;
-	}
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
 
-	&:focus-visible {
-		@include focus-ring();
-	}
+  &:focus-visible {
+    @include focus-ring();
+  }
 }
 
 @mixin button-primary {
-	background: var(--primary);
-	border-color: transparent;
-	color: white;
+  background: var(--primary);
+  border-color: transparent;
+  color: white;
 
-	&:hover {
-		background: var(--primary-hover);
-	}
+  &:hover {
+    background: var(--primary-hover);
+  }
 }
 
 @mixin card-header {
-	display: flex;
-	align-items: center;
-	gap: 10px;
-	margin-bottom: 0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 0.5rem;
 
-	h3 {
-		margin: 0;
-		flex-grow: 1;
-	}
-	.icon {
-		font-size: 1.5rem;
-	}
+  h3 {
+    margin: 0;
+    flex-grow: 1;
+  }
+  .icon {
+    font-size: 1.5rem;
+  }
 }
 
 @mixin input-base {
-	width: 100%;
-	background: var(--surface-3);
-	color: var(--text);
-	border: 1px solid var(--border);
-	border-radius: var(--radius-sm);
-	padding: $space-2 $space-3;
-	transition:
-		border-color 0.15s ease,
-		background 0.15s ease;
+  width: 100%;
+  background: var(--surface-3);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: $space-2 $space-3;
+  transition:
+    border-color 0.15s ease,
+    background 0.15s ease;
 
-	&:focus {
-		border-color: var(--primary);
-		box-shadow: 0 0 0 3px $focus-ring;
-		outline: none;
-	}
+  &:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px $focus-ring;
+    outline: none;
+  }
 }
 
-@mixin badge(
-	$bg: var(--surface-3),
-	$fg: inherit,
-	$py: 2px,
-	$px: 6px,
-	$radius: var(--radius-sm),
-	$fs: 0.8rem
-) {
-	font-size: $fs;
-	padding: $py $px;
-	border-radius: $radius;
-	background: $bg;
-	color: $fg;
+@mixin badge($bg: var(--surface-3), $fg: inherit, $py: 2px, $px: 6px, $radius: var(--radius-sm), $fs: 0.8rem) {
+  font-size: $fs;
+  padding: $py $px;
+  border-radius: $radius;
+  background: $bg;
+  color: $fg;
 }
 
 @mixin form-row($mb: $space-2) {
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-	margin-bottom: $mb;
-	font-size: $text-sm;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: $mb;
+  font-size: $text-sm;
 
-	&:last-child {
-		margin-bottom: 0;
-	}
+  &:last-child {
+    margin-bottom: 0;
+  }
 
-	label {
-		color: var(--text-muted);
-		margin-right: $space-2;
-	}
+  label {
+    color: var(--text-muted);
+    margin-right: $space-2;
+  }
 }
 
 @mixin inline-cluster($gap: $space-2, $align: center) {
-	display: flex;
-	align-items: $align;
-	gap: $gap;
+  display: flex;
+  align-items: $align;
+  gap: $gap;
 }
 
 @mixin muted-text {
-	color: var(--text-muted);
+  color: var(--text-muted);
 }
 @mixin error-text {
-	color: var(--error);
-	font-weight: bold;
-	font-size: $text-sm;
+  color: var(--error);
+  font-weight: bold;
+  font-size: $text-sm;
 }
 
 @mixin scrollbars {
-	scrollbar-width: thin;
-	scrollbar-color: var(--border) transparent;
+  scrollbar-width: thin;
+  scrollbar-color: var(--border) transparent;
 
-	&::-webkit-scrollbar {
-		width: 10px;
-		height: 10px;
-	}
-	&::-webkit-scrollbar-thumb {
-		background: var(--border);
-		border-radius: 10px;
-		border: 2px solid transparent;
-		background-clip: content-box;
-	}
-	&::-webkit-scrollbar-track {
-		background: transparent;
-	}
+  &::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: var(--border);
+    border-radius: 10px;
+    border: 2px solid transparent;
+    background-clip: content-box;
+  }
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
 }

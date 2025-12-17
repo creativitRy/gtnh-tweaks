@@ -1,23 +1,22 @@
 <script lang="ts">
-	import type { TweakDef } from '$lib/tweak';
-	import { selections } from '$lib/stores/appState';
-	import BaseCard from '$lib/components/BaseCard.svelte';
+  import type { TweakDef } from '$lib/tweak';
+  import { selections } from '$lib/stores/appState';
+  import BaseCard from '$lib/components/BaseCard.svelte';
 
-	export let tweak: TweakDef;
+  export let tweak: TweakDef;
 
-	$: isSelected = !!$selections[tweak.id];
-	$: sgState =
-		tweak.stargateState === true ? true : tweak.stargateState === false ? false : undefined;
+  $: isSelected = !!$selections[tweak.id];
+  $: sgState = tweak.stargateState === true ? true : tweak.stargateState === false ? false : undefined;
 </script>
 
 <BaseCard
-	as="button"
-	type="button"
-	selected={isSelected}
-	icon={tweak.icon}
-	name={tweak.name}
-	description={tweak.description}
-	{sgState}
-	hasConfigs={!!tweak.configs}
-	on:click
+  as="button"
+  type="button"
+  selected={isSelected}
+  icon={tweak.icon}
+  name={tweak.name}
+  description={tweak.description}
+  {sgState}
+  hasConfigs={!!tweak.configs}
+  on:click
 ></BaseCard>

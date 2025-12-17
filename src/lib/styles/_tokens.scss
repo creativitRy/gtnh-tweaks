@@ -44,30 +44,30 @@ $shadow-lg: 0 6px 16px rgba(0, 0, 0, 0.5);
 
 // CSS variables bridge for runtime usage
 :root {
-	--bg: #{$color-bg};
-	--surface: #{$color-surface};
-	--surface-2: #{$color-surface-2};
-	--surface-3: #{$color-surface-3};
-	--text: #{$color-text};
-	--text-muted: #{$color-text-muted};
-	--border: #{$color-border};
-	--border-strong: #{$color-border-strong};
-	--primary: #{$color-primary};
-	--primary-hover: #{$color-primary-hover};
-	--success: #{$color-success};
-	--warning: #{$color-warning};
-	--error: #{$color-error};
+  --bg: #{$color-bg};
+  --surface: #{$color-surface};
+  --surface-2: #{$color-surface-2};
+  --surface-3: #{$color-surface-3};
+  --text: #{$color-text};
+  --text-muted: #{$color-text-muted};
+  --border: #{$color-border};
+  --border-strong: #{$color-border-strong};
+  --primary: #{$color-primary};
+  --primary-hover: #{$color-primary-hover};
+  --success: #{$color-success};
+  --warning: #{$color-warning};
+  --error: #{$color-error};
 
-	--radius-sm: #{$radius-sm};
-	--radius-md: #{$radius-md};
-	--radius-lg: #{$radius-lg};
+  --radius-sm: #{$radius-sm};
+  --radius-md: #{$radius-md};
+  --radius-lg: #{$radius-lg};
 
-	--space-1: #{$space-1};
-	--space-2: #{$space-2};
-	--space-3: #{$space-3};
-	--space-4: #{$space-4};
-	--space-5: #{$space-5};
-	--space-6: #{$space-6};
+  --space-1: #{$space-1};
+  --space-2: #{$space-2};
+  --space-3: #{$space-3};
+  --space-4: #{$space-4};
+  --space-5: #{$space-5};
+  --space-6: #{$space-6};
 
-	--max-screen-width: #{$max-screen-width};
+  --max-screen-width: #{$max-screen-width};
 }
