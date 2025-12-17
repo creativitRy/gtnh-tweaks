@@ -1,11 +1,12 @@
 import { defineTweak } from '$lib/tweak';
+import { gtnhVersionIds } from '$lib/data/versions';
 
 // noinspection JSUnusedGlobalSymbols
 export default defineTweak({
   name: 'Disable Item Dislocator Sound',
   description: "Disable sound made by Draconic Evolution's Item Dislocator (magnet)",
   icon: { kind: 'image', src: 'icons/ItemDislocator.png', alt: 'Item Dislocator' },
-  supportedVersions: () => true,
+  supportedVersions: [gtnhVersionIds.v2_8_0],
   followsStargateRules: true,
   onDownload: async (config, downloadCtx) => {
     await downloadCtx.patchFile(

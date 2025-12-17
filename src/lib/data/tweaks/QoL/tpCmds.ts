@@ -1,11 +1,12 @@
 import { defineTweak } from '$lib/tweak';
+import { gtnhVersionIds } from '$lib/data/versions';
 
 // noinspection JSUnusedGlobalSymbols
 export default defineTweak({
   name: 'Teleport Commands (FTB Essentials)',
   description: 'Enable teleport commands like home and tpa.',
   icon: { kind: 'emoji', value: '🌀' },
-  supportedVersions: () => true,
+  supportedVersions: [gtnhVersionIds.v2_8_0],
   followsStargateRules: cfg => !cfg.back || +cfg.backCooldown >= 30,
   configs: {
     back: {

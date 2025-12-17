@@ -6,7 +6,7 @@ export default defineTweak({
   description:
     'Share VisualProspecting data between members of a ServerUtilities team. You can see ore veins that other players find.',
   icon: { kind: 'emoji', value: '⛏️' },
-  supportedVersions: () => true,
+  supportedVersions: 'all',
   followsStargateRules: true,
   filesToDownload: (version, config) => [
     {

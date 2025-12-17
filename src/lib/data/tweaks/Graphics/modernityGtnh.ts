@@ -5,7 +5,7 @@ export default defineTweak({
   name: 'Modernity-GTNH (Resourcepack)',
   description: 'Resourcepack for modern textures. You need to select this resource pack manually ingame.',
   icon: { kind: 'image', src: 'icons/modernity-gtnh.png', alt: 'modernity-gtnh' },
-  supportedVersions: () => true,
+  supportedVersions: 'all',
   followsStargateRules: true,
   filesToDownload: (version, config) => [
     {

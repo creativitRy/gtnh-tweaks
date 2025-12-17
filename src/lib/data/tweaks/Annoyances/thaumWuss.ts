@@ -1,4 +1,5 @@
 import { defineTweak } from '$lib/tweak';
+import { gtnhVersionIds } from '$lib/data/versions';
 
 // noinspection JSUnusedGlobalSymbols
 export default defineTweak({
@@ -6,7 +7,7 @@ export default defineTweak({
   description:
     'Progressing through Thaumcraft might give you permanent annoying effects. This tweak disables warp and similar mechanics. You wuss.',
   icon: { kind: 'emoji', value: '👶' },
-  supportedVersions: () => true,
+  supportedVersions: [gtnhVersionIds.v2_8_0],
   followsStargateRules: false,
   onDownload: async (config, downloadCtx) => {
     await downloadCtx.patchFile(

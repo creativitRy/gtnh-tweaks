@@ -5,7 +5,7 @@ export default defineTweak({
   name: 'JourneyMap Unlimited',
   description: 'View caves and stuff in JourneyMap (https://gtnh.miraheze.org/wiki/JourneyMap#JourneyMap_Fairplay)',
   icon: { kind: 'image', src: 'icons/journeymap.webp', alt: 'journeymap' },
-  supportedVersions: () => true,
+  supportedVersions: 'all',
   followsStargateRules: false,
   filesToDownload: (version, config) => [
     {

@@ -59,7 +59,7 @@ export interface TweakDef {
   configs?: Record<string, ConfigSchema>;
   incompatibleWith?: TweakId[];
 
-  supportedVersions: (v: VersionId) => boolean;
+  supportedVersions: 'all' | VersionId[] | Set<VersionId>;
   followsStargateRules: ((config: Record<string, ConfigValue>) => boolean) | boolean;
 
   filesToDelete?: (modpackVersion: string, config: Record<string, ConfigValue>) => string[];
@@ -71,10 +71,21 @@ export type ModToDownload = { description: string; url: string; filename: string
 export type TweakConfig = Record<string, ConfigValue>;
 export type SelectedTweaksMap = Record<TweakId, TweakConfig>;
 
+export function supportsVersion(tweak: TweakDef, version: VersionId): boolean {
+  if (tweak.supportedVersions === 'all') return true;
+  if (tweak.supportedVersions instanceof Set) return tweak.supportedVersions.has(version);
+  if (Array.isArray(tweak.supportedVersions)) return tweak.supportedVersions.includes(version);
+  throw new Error(`Invalid ${tweak.id} supportedVersions: ${tweak.supportedVersions}`);
+}
+
 export function defineTweak(
   tweak: Omit<TweakDef, 'group' | 'id'>,
 ): Omit<TweakDef, 'group' | 'id'> & { defineTweak: true } {
-  return { ...tweak, defineTweak: true };
+  let supportedVersions = tweak.supportedVersions;
+  if (Array.isArray(supportedVersions) && supportedVersions.length > 2) {
+    supportedVersions = new Set(supportedVersions);
+  }
+  return { ...tweak, defineTweak: true, supportedVersions };
 }
 
 export class DownloadContext {

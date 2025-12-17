@@ -1,4 +1,5 @@
 import { defineTweak } from '$lib/tweak';
+import { gtnhVersionIds } from '$lib/data/versions';
 
 // noinspection JSUnusedGlobalSymbols
 export default defineTweak({
@@ -7,7 +8,7 @@ export default defineTweak({
     'GregTech machines can explode based on various conditions. Control those conditions using this tweak.\n' +
     "To follow Stargate rules, only use this tweak as an alternative to rollbacks and don't abuse it!",
   icon: { kind: 'emoji', value: '💣' },
-  supportedVersions: () => true,
+  supportedVersions: [gtnhVersionIds.v2_8_0],
   followsStargateRules: true,
   configs: {
     tweak: {

@@ -1,4 +1,5 @@
 import { defineTweak } from '$lib/tweak';
+import { gtnhVersionIds } from '$lib/data/versions';
 
 // noinspection JSUnusedGlobalSymbols
 export default defineTweak({
@@ -16,7 +17,7 @@ export default defineTweak({
       step: 1,
     },
   },
-  supportedVersions: () => true,
+  supportedVersions: [gtnhVersionIds.v2_8_0],
   followsStargateRules: config => parseInt(config.radius as string) <= 32,
   onDownload: async (config, downloadCtx) => {
     await downloadCtx.patchFile(

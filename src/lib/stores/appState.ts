@@ -5,6 +5,7 @@ import {
   type ConfigValue,
   DownloadContext,
   type SelectedTweaksMap,
+  supportsVersion,
   type TweakConfig,
   type TweakDef,
   type TweakId,
@@ -24,7 +25,7 @@ export const presetName = writable<string>('custom');
 export const zipProgress = writable<number | undefined>(undefined);
 
 export const availableTweaks = derived(selectedVersion, $ver => {
-  return ALL_TWEAKS.values().filter(t => t.supportedVersions($ver));
+  return ALL_TWEAKS.values().filter(t => supportsVersion(t, $ver));
 });
 
 export const tweaksByGroup = derived(availableTweaks, $tweaks => {
@@ -49,7 +50,7 @@ export const validationState = derived([selections, stargateFilter, selectedVers
 
     const config = $sel[id];
 
-    if (!tweak.supportedVersions($ver)) {
+    if (!supportsVersion(tweak, $ver)) {
       errors[id].push(`Not supported in version ${$ver}`);
     }
 

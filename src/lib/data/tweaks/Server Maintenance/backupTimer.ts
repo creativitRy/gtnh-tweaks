@@ -1,11 +1,12 @@
 import { defineTweak } from '$lib/tweak';
+import { gtnhVersionIds } from '$lib/data/versions';
 
 // noinspection JSUnusedGlobalSymbols
 export default defineTweak({
   name: 'Backup Timer',
   description: 'Configure how frequently backup should run (default: 0.5h).',
   icon: { kind: 'emoji', value: '⏲️' },
-  supportedVersions: () => true,
+  supportedVersions: [gtnhVersionIds.v2_8_0],
   followsStargateRules: true,
   configs: {
     timer: {

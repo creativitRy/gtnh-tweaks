@@ -5,7 +5,7 @@ export default defineTweak({
   name: 'Complementary Shaders - Reimagined',
   description: 'Shader, with tweaks to support hardcore darkness. You need to select this shader manually ingame.',
   icon: { kind: 'image', src: 'icons/complementary.webp', alt: 'complementary' },
-  supportedVersions: () => true,
+  supportedVersions: 'all',
   followsStargateRules: true,
   filesToDownload: (version, config) => [
     {

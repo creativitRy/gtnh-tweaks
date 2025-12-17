@@ -1,4 +1,5 @@
 import { defineTweak } from '$lib/tweak';
+import { gtnhVersionIds } from '$lib/data/versions';
 
 // noinspection JSUnusedGlobalSymbols
 export default defineTweak({
@@ -7,7 +8,7 @@ export default defineTweak({
     'Configure percentage of players required to sleep for the server to tick (default: 50%). ' +
     'Set to 0 if only 1 player needs to sleep.',
   icon: { kind: 'emoji', value: '🛌' },
-  supportedVersions: () => true,
+  supportedVersions: [gtnhVersionIds.v2_8_0],
   followsStargateRules: true,
   configs: {
     percentage: {

@@ -1,11 +1,12 @@
 import { defineTweak } from '$lib/tweak';
+import { gtnhVersionIds } from '$lib/data/versions';
 
 // noinspection JSUnusedGlobalSymbols
 export default defineTweak({
   name: 'Backups to Keep',
   description: 'Configure number of backup files to keep before deleting old ones (default: 12).',
   icon: { kind: 'emoji', value: '♻️️' },
-  supportedVersions: () => true,
+  supportedVersions: [gtnhVersionIds.v2_8_0],
   followsStargateRules: true,
   configs: {
     amount: {

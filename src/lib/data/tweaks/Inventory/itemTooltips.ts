@@ -1,4 +1,5 @@
 import { defineTweak } from '$lib/tweak';
+import { gtnhVersionIds } from '$lib/data/versions';
 
 // noinspection JSUnusedGlobalSymbols
 export default defineTweak({
@@ -6,7 +7,7 @@ export default defineTweak({
   description:
     'Adds detailed tooltips to itmes on hover, such as burn time, registry name, etc. Some are only visible after pressing F3+H.',
   icon: { kind: 'emoji', value: '💡' },
-  supportedVersions: () => true,
+  supportedVersions: [gtnhVersionIds.v2_8_0],
   followsStargateRules: true,
   onDownload: async (config, downloadCtx) => {
     await downloadCtx.patchFile(

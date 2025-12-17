@@ -5,7 +5,7 @@ export default defineTweak({
   name: 'MouseSideButtonFix (Mod)',
   description: 'Use mouse side buttons as a shortcut key. Other keys might need to be pressed for it to work properly.',
   icon: { kind: 'emoji', value: '🖱️' },
-  supportedVersions: () => true,
+  supportedVersions: 'all',
   followsStargateRules: true,
   filesToDownload: (version, config) => [
     {

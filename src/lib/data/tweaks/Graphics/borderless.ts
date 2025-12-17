@@ -1,11 +1,12 @@
 import { defineTweak } from '$lib/tweak';
+import { gtnhVersionIds } from '$lib/data/versions';
 
 // noinspection JSUnusedGlobalSymbols
 export default defineTweak({
   name: 'Borderless Windowed Fullscreen',
   description: 'Replaces the fullscreen mode with a borderless windowed mode.',
   icon: { kind: 'emoji', value: '🖥️' },
-  supportedVersions: () => true,
+  supportedVersions: [gtnhVersionIds.v2_8_0],
   followsStargateRules: true,
   onDownload: async (config, downloadCtx) => {
     await downloadCtx.patchFile(

@@ -6,7 +6,7 @@ export default defineTweak({
   description:
     'Change global tick rate by `/tickrate [tps]` (default is 20) (https://www.curseforge.com/minecraft/mc-mods/tickratechanger)',
   icon: { kind: 'image', src: 'icons/TickrateChanger.png', alt: 'TickrateChanger' },
-  supportedVersions: () => true,
+  supportedVersions: 'all',
   followsStargateRules: false,
   filesToDownload: (version, config) => [
     {

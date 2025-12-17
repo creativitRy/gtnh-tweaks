@@ -6,7 +6,7 @@ export default defineTweak({
   description:
     'Instead of key binding conflicts, use a radial menu (https://www.curseforge.com/minecraft/mc-mods/minemenu)',
   icon: { kind: 'image', src: 'icons/MineMenu.png', alt: 'MineMenu' },
-  supportedVersions: () => true,
+  supportedVersions: 'all',
   followsStargateRules: true,
   filesToDownload: (version, config) => [
     {

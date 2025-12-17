@@ -1,4 +1,5 @@
 import { defineTweak } from '$lib/tweak';
+import { gtnhVersionIds } from '$lib/data/versions';
 
 // noinspection JSUnusedGlobalSymbols
 export default defineTweak({
@@ -6,7 +7,7 @@ export default defineTweak({
   description:
     'Many machines cause pollution. But pollution currently only causes annoying effects rather than real reasons to act against it. This tweak turns off pollution mechanics entirely.',
   icon: { kind: 'emoji', value: '🤢' },
-  supportedVersions: () => true,
+  supportedVersions: [gtnhVersionIds.v2_8_0],
   followsStargateRules: true,
   onDownload: async (config, downloadCtx) => {
     await downloadCtx.patchFile(
