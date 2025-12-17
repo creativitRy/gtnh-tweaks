@@ -62,12 +62,10 @@ export interface TweakDef {
   followsStargateRules: ((config: Record<string, ConfigValue>) => boolean) | boolean;
 
   filesToDelete?: (modpackVersion: string, config: Record<string, ConfigValue>) => string[];
-  modsToDownload?: (
-    modpackVersion: string,
-    config: Record<string, ConfigValue>,
-  ) => { name: string; url: string; filename: string }[];
+  filesToDownload?: (modpackVersion: string, config: Record<string, ConfigValue>) => ModToDownload[];
   onDownload: (config: Record<string, ConfigValue>, ctx: DownloadContext) => Promise<void>;
 }
+export type ModToDownload = { description: string; url: string; filename: string };
 
 export type TweakConfig = Record<string, ConfigValue>;
 export type SelectedTweaksMap = Record<TweakId, TweakConfig>;
@@ -175,7 +173,7 @@ serverutilities.homes.cross_dim: false`;
 
     for (const [id, tweakConfig] of Object.entries(this.selections)) {
       const tweak = this.ALL_TWEAKS.get(id)!;
-      for (const mod of tweak.modsToDownload ? tweak.modsToDownload(this.version, tweakConfig) : []) {
+      for (const mod of tweak.filesToDownload ? tweak.filesToDownload(this.version, tweakConfig) : []) {
         this.createdFiles.add(`.minecraft/mods/${mod.filename}`);
       }
       for (const file of tweak.filesToDelete ? tweak.filesToDelete(this.version, tweakConfig) : []) {

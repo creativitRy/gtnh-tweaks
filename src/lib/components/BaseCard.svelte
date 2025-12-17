@@ -116,6 +116,7 @@
       font-size: 0.9rem;
       @include mixins.muted-text;
       margin-bottom: 1rem;
+      white-space: pre-line;
     }
   }
 
