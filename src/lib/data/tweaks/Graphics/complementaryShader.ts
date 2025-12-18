@@ -4,7 +4,11 @@ import { defineTweak } from '$lib/tweak';
 export default defineTweak({
   name: 'Complementary Shaders - Reimagined',
   description: 'Shader, with tweaks to support hardcore darkness. You need to select this shader manually ingame.',
-  icon: { kind: 'image', src: 'icons/complementary.webp', alt: 'complementary' },
+  icon: {
+    kind: 'image',
+    src: 'https://cdn.modrinth.com/data/HVnmMxH1/79cb7c8123bbc54945305b2ebad6b8881efdf5f8_96.webp',
+    alt: 'complementary',
+  },
   supportedVersions: 'all',
   followsStargateRules: true,
   filesToDownload: (version, config) => [

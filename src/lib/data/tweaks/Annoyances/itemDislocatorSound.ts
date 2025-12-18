@@ -5,7 +5,11 @@ import { gtnhVersionIds } from '$lib/data/versions';
 export default defineTweak({
   name: 'Disable Item Dislocator Sound',
   description: "Disable sound made by Draconic Evolution's Item Dislocator (magnet)",
-  icon: { kind: 'image', src: 'icons/ItemDislocator.png', alt: 'Item Dislocator' },
+  icon: {
+    kind: 'image',
+    src: 'https://github.com/Draconic-Inc/Draconic-Evolution/blob/1.21/src/main/resources/assets/draconicevolution/textures/item/magnet.png?raw=true',
+    alt: 'Item Dislocator',
+  },
   supportedVersions: [gtnhVersionIds.v2_8_0, gtnhVersionIds.v2_8_1, gtnhVersionIds.v2_8_2, gtnhVersionIds.v2_8_3],
   followsStargateRules: true,
   onDownload: async (config, downloadCtx) => {

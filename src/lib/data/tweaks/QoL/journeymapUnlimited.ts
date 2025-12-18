@@ -4,7 +4,11 @@ import { defineTweak } from '$lib/tweak';
 export default defineTweak({
   name: 'JourneyMap Unlimited',
   description: 'View caves and stuff in JourneyMap (https://gtnh.miraheze.org/wiki/JourneyMap#JourneyMap_Fairplay)',
-  icon: { kind: 'image', src: 'icons/journeymap.webp', alt: 'journeymap' },
+  icon: {
+    kind: 'image',
+    src: 'https://cdn.modrinth.com/data/lfHFW1mp/a1c571a21a88f6fa59eab67829f216f65ab393ee_96.webp',
+    alt: 'journeymap',
+  },
   supportedVersions: 'all',
   followsStargateRules: false,
   filesToDownload: (version, config) => [
