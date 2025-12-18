@@ -2,11 +2,12 @@
   import { createPatch } from 'diff';
   import { GTNH_VERSIONS } from '$lib/data/versions';
   import { writable } from 'svelte/store';
+  import type { VersionId } from '$lib/tweak';
 
   let prevText = '';
   let newText = '';
   let filePath = '.minecraft/config/filename.txt';
-  const selectedVersion = writable<string>(GTNH_VERSIONS[0].id);
+  const selectedVersion = writable<VersionId>(GTNH_VERSIONS[0].id);
   let computedText = '';
 
   function computePatch(prevText: string, newText: string): string {

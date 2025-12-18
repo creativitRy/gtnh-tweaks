@@ -9,6 +9,7 @@ import {
   type TweakConfig,
   type TweakDef,
   type TweakId,
+  type VersionId,
 } from '$lib/tweak';
 import { browser } from '$app/environment';
 import { saveAs } from 'file-saver';
@@ -17,7 +18,7 @@ import { tick } from 'svelte';
 import brotliPromise from 'brotli-wasm';
 import { base64ToBytes, bytesToBase64 } from 'byte-base64';
 
-export const selectedVersion = writable<string>(GTNH_VERSIONS[0].id);
+export const selectedVersion = writable<VersionId>(GTNH_VERSIONS[0].id);
 export const stargateFilter = writable<boolean>(false);
 export const selections = writable<SelectedTweaksMap>({});
 export const presetName = writable<string>('custom');
@@ -181,7 +182,7 @@ export async function download(version: string, selections: SelectedTweaksMap) {
     saveAs(blob, 'gtnh-tweaks.zip');
   } catch (e) {
     console.error(e);
-    alert('Failed to generate download: ' + String(e).split('\n', 2)[0]);
+    alert('Failed to generate download: ' + String(e).split('\n', 2)[0] + '\n\nSee browser console for details.');
   } finally {
     // Hide the modal after a short tick to let UI show 100% momentarily
     setTimeout(() => zipProgress.set(undefined), 1000);

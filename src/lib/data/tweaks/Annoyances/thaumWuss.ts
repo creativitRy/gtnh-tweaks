@@ -11,7 +11,7 @@ export default defineTweak({
   followsStargateRules: false,
   onDownload: async (config, downloadCtx) => {
     await downloadCtx.patchFile(
-      '.minecraft/config/GregTech/Pollution.cfg',
+      '.minecraft/config/Thaumcraft.cfg',
       `Index: .minecraft/config/Thaumcraft.cfg
 ===================================================================
 --- .minecraft/config/Thaumcraft.cfg

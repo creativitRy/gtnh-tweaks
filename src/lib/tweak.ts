@@ -3,6 +3,8 @@ import { applyPatch, type StructuredPatch } from 'diff';
 import type { Writable } from 'svelte/store';
 import { ServerRanks } from '$lib/serverRanks';
 import { DefaultKeys } from '$lib/defaultkeys';
+import { GTNH_VERSIONS, GTNH_VERSIONS_LOOKUP } from '$lib/data/versions';
+import { downloadGtnhConfig } from '$lib/githubDownloader';
 
 export type TweakId = string;
 export type VersionId = string;
@@ -110,11 +112,7 @@ export class DownloadContext {
   async patchFile(filePath: string, patch: string | StructuredPatch | [StructuredPatch]): Promise<void> {
     let prev = this.modifiedFiles.get(filePath);
     if (prev === undefined) {
-      console.assert(filePath.startsWith('.minecraft/'));
-      const url = `gtnh/${this.version}/${filePath.slice('.minecraft/'.length)}`;
-      const response = await fetch(url);
-      if (!response.ok) throw new Error(`Failed to fetch ${url}: ${response.statusText}`);
-      prev = await response.text();
+      prev = await downloadGtnhConfig(GTNH_VERSIONS_LOOKUP.get(this.version)!.gitCommit, filePath);
     }
     const patchResult = applyPatch(prev, patch, { fuzzFactor: 16, autoConvertLineEndings: true });
     if (patchResult === false) {
@@ -149,10 +147,7 @@ export class DownloadContext {
     const filePath = '.minecraft/serverutilities/server/ranks.txt';
     let prevRaw = this.modifiedFiles.get(filePath);
     if (prevRaw === undefined) {
-      const url = `gtnh/${this.version}/${filePath.slice('.minecraft/'.length)}`;
-      const response = await fetch(url);
-      if (!response.ok) throw new Error(`Failed to fetch ${url}: ${response.statusText}`);
-      prevRaw = await response.text();
+      prevRaw = await downloadGtnhConfig(GTNH_VERSIONS_LOOKUP.get(this.version)!.gitCommit, filePath);
     }
     const ranks = new ServerRanks(prevRaw);
     ranks.patch(rankName, key, value);
@@ -198,13 +193,13 @@ ${Object.keys(this.selections)
   .map(id => `  - ${id}`)
   .sort()
   .join('\n')}
-- Created Files:${[...this.createdFiles.keys().map(f => `  - ${f}\n`)]
+- Created Files:${[...this.createdFiles.keys().map(f => `\n  - ${f}`)]
         .sort((a, b) => a.localeCompare(b, undefined, { numeric: true, sensitivity: 'base' }))
         .join('')}
-- Modified files:${[...this.modifiedFiles.keys().map(f => `  - ${f}\n`)]
+- Modified files:${[...this.modifiedFiles.keys().map(f => `\n  - ${f}`)]
         .sort((a, b) => a.localeCompare(b, undefined, { numeric: true, sensitivity: 'base' }))
         .join('')}
-- Deleted Files:${[...this.deletedFiles.values().map(f => `  - ${f}\n`)]
+- Deleted Files:${[...this.deletedFiles.values().map(f => `\n  - ${f}`)]
         .sort((a, b) => a.localeCompare(b, undefined, { numeric: true, sensitivity: 'base' }))
         .join('')}
 `,
