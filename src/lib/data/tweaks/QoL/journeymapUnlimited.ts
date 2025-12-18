@@ -11,13 +11,13 @@ export default defineTweak({
   },
   supportedVersions: 'all',
   followsStargateRules: false,
-  filesToDownload: (version, config) => [
+  filesToDownload: () => [
     {
       filename: '.minecraft/mods/journeymap-1.7.10-5.2.10-unlimited.jar',
       description: 'Mod',
       url: 'https://cdn.modrinth.com/data/lfHFW1mp/versions/MO9cf9Ur/journeymap-1.7.10-5.2.10-unlimited.jar',
     },
   ],
-  filesToDelete: (version, config) => ['.minecraft/mods/journeymap-1.7.10-5.2.10-fairplay.jar'],
-  onDownload: async (config, downloadCtx) => {},
+  filesToDelete: () => ['.minecraft/mods/journeymap-1.7.10-5.2.10-fairplay.jar'],
+  onDownload: async () => {},
 });

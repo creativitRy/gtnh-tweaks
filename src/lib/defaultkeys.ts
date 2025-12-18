@@ -1,7 +1,7 @@
 export class DefaultKeys {
   private readonly data = new Map<string, number>();
   constructor(raw: string = '') {
-    for (let line of raw.split('\n')) {
+    for (const line of raw.split('\n')) {
       let [key, value] = line.split(':', 2);
       if (!key || !value) continue;
       key = key.trim();

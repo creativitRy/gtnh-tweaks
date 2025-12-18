@@ -25,9 +25,9 @@ export class ServerRanks {
 
   generate(): string {
     let result = '// For more info visit https://github.com/GTNewHorizons/ServerUtilities';
-    for (let [group, ranks] of this.data.entries()) {
+    for (const [group, ranks] of this.data.entries()) {
       result += `\n\n[${group}]`;
-      for (let [key, value] of ranks) {
+      for (const [key, value] of ranks) {
         result += `\n${key}: ${value}`;
       }
     }
@@ -36,7 +36,7 @@ export class ServerRanks {
 
   patch(rankName: string | undefined, key: string, value: string | undefined) {
     if (rankName === undefined) {
-      for (let ranks of this.data.values()) {
+      for (const ranks of this.data.values()) {
         if (value === undefined) {
           ranks.delete(key);
         } else {

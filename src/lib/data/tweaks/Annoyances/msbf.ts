@@ -7,12 +7,12 @@ export default defineTweak({
   icon: { kind: 'emoji', value: '🖱️' },
   supportedVersions: 'all',
   followsStargateRules: true,
-  filesToDownload: (version, config) => [
+  filesToDownload: () => [
     {
       filename: '.minecraft/mods/msbf-v1.0.jar',
       description: 'Mod',
       url: 'https://github.com/asdflj/MouseSideButtonFix/releases/download/v1.0/msbf-v1.0.jar',
     },
   ],
-  onDownload: async (config, downloadCtx) => {},
+  onDownload: async () => {},
 });

@@ -104,11 +104,7 @@ export function updateConfig(id: TweakId, key: string, value: ConfigValue) {
 
 export function updateUrl() {
   if (!browser) return;
-  const s = get(selections);
-  const v = get(selectedVersion);
-  const sg = get(stargateFilter);
-
-  updateUrlImpl(s, v, sg).then(r => {});
+  updateUrlImpl(get(selections), get(selectedVersion), get(stargateFilter)).then(() => {});
 }
 
 const textEncoder = new TextEncoder();

@@ -11,7 +11,7 @@ export default defineTweak({
   },
   supportedVersions: 'all',
   followsStargateRules: true,
-  filesToDownload: (version, config) => [
+  filesToDownload: () => [
     {
       filename: '.minecraft/resourcepacks/Modernity-GTNH-28x-Fix.zip',
       description: 'Resourcepack',
@@ -23,5 +23,5 @@ export default defineTweak({
       url: 'https://github.com/ABKQPO/Modernity-GTNH/releases/download/v1.5.9/MyCTMLib-v1.2.5_28x.jar',
     },
   ],
-  onDownload: async (config, downloadCtx) => {},
+  onDownload: async () => {},
 });

@@ -12,12 +12,12 @@ export default defineTweak({
   },
   supportedVersions: 'all',
   followsStargateRules: false,
-  filesToDownload: (version, config) => [
+  filesToDownload: () => [
     {
       filename: '.minecraft/mods/TickrateChanger-1.0.2e.jar',
       description: 'Mod',
       url: 'https://www.curseforge.com/api/v1/mods/230233/files/2262282/download',
     },
   ],
-  onDownload: async (config, downloadCtx) => {},
+  onDownload: async () => {},
 });

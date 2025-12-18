@@ -11,14 +11,14 @@ export default defineTweak({
   },
   supportedVersions: 'all',
   followsStargateRules: true,
-  filesToDownload: (version, config) => [
+  filesToDownload: () => [
     {
       filename: '.minecraft/shaderpacks/ComplementaryReimagined_r5.6.1.zip',
       description: 'Shader',
       url: 'https://cdn.modrinth.com/data/HVnmMxH1/versions/OfRF7dTR/ComplementaryReimagined_r5.6.1.zip',
     },
   ],
-  onDownload: async (config, downloadCtx) => {
+  onDownload: async (_config, downloadCtx) => {
     downloadCtx.createRawFile(
       '.minecraft/shaderpacks/ComplementaryReimagined_r5.6.1.zip.txt',
       `#Wed Oct 08 12:35:30 PDT 2025

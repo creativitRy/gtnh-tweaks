@@ -1,11 +1,9 @@
-import type { VersionId } from '$lib/tweak';
-
-export namespace gtnhVersionIds {
-  export const v2_8_3: VersionId = '2.8.3';
-  export const v2_8_2: VersionId = '2.8.2';
-  export const v2_8_1: VersionId = '2.8.1';
-  export const v2_8_0: VersionId = '2.8.0';
-}
+export const gtnhVersionIds = {
+  v2_8_3: '2.8.3',
+  v2_8_2: '2.8.2',
+  v2_8_1: '2.8.1',
+  v2_8_0: '2.8.0',
+};
 
 export const GTNH_VERSIONS = [
   { id: gtnhVersionIds.v2_8_3, date: '2025-12-12', gitCommit: 'e7c5b9805dd2cedb7c56bf2b55d9eb44fc6224d0' },

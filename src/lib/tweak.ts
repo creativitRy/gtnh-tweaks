@@ -3,7 +3,7 @@ import { applyPatch, type StructuredPatch } from 'diff';
 import type { Writable } from 'svelte/store';
 import { ServerRanks } from '$lib/serverRanks';
 import { DefaultKeys } from '$lib/defaultkeys';
-import { GTNH_VERSIONS, GTNH_VERSIONS_LOOKUP } from '$lib/data/versions';
+import { GTNH_VERSIONS_LOOKUP } from '$lib/data/versions';
 import { downloadGtnhConfig } from '$lib/githubDownloader';
 
 export type TweakId = string;

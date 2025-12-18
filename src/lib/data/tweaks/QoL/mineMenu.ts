@@ -12,14 +12,14 @@ export default defineTweak({
   },
   supportedVersions: 'all',
   followsStargateRules: true,
-  filesToDownload: (version, config) => [
+  filesToDownload: () => [
     {
       filename: '.minecraft/mods/MineMenu-1.7.10-1.2.0.B44-universal.jar',
       description: 'Mod',
       url: 'https://www.curseforge.com/api/v1/mods/222378/files/2214959/download',
     },
   ],
-  onDownload: async (config, downloadCtx) => {
+  onDownload: async (_config, downloadCtx) => {
     downloadCtx.createRawFile(
       '.minecraft/config/MineMenu/MineMenu.cfg',
       `# Configuration file

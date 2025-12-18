@@ -8,12 +8,12 @@ export default defineTweak({
   icon: { kind: 'emoji', value: '⛏️' },
   supportedVersions: 'all',
   followsStargateRules: true,
-  filesToDownload: (version, config) => [
+  filesToDownload: () => [
     {
       filename: '.minecraft/mods/sharedprospecting-2.0.3.jar',
       description: 'Mod',
       url: 'https://github.com/Lyfts/SharedProspecting/releases/download/2.0.3/sharedprospecting-2.0.3.jar',
     },
   ],
-  onDownload: async (config, downloadCtx) => {},
+  onDownload: async () => {},
 });
