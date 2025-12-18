@@ -3,9 +3,6 @@
   "private": true,
   "version": "0.0.1",
   "repository": "https://github.com/creativitRy/gtnh-tweaks",
-  "workspaces": [
-    "scripts"
-  ],
   "type": "module",
   "scripts": {
     "dev": "vite dev",
