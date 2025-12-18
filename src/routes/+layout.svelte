@@ -1,5 +1,4 @@
 <script lang="ts">
-  import favicon from '$lib/assets/favicon.svg';
   import '../app.scss';
 
   let { children } = $props();
@@ -7,7 +6,7 @@
 
 <svelte:head>
   <title>GTNH Tweaks</title>
-  <link rel="icon" href={favicon} />
+  <link rel="icon" href="https://www.gtnewhorizons.com/favicon.svg" />
 </svelte:head>
 
 {@render children()}
