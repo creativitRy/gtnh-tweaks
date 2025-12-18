@@ -1,10 +1,12 @@
 # GTNH Tweaks
 
-A collection of tweaks for GTNH.
+https://gtnh-tweaks.ctry.dev/
+
+Website to further configure GregTech: New Horizons to your liking.
 
 ## Contributing
 
-To add new tweaks or change existing tweaks, see [README.md](src/lib/data/tweaks/README.md).
+To add new tweaks or change existing tweaks, see [src/lib/data/tweaks/](src/lib/data/tweaks/README.md).
 
 Start a development server:
 

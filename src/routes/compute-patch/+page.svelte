@@ -1,29 +1,13 @@
 <script lang="ts">
   import { createPatch } from 'diff';
-  import { GTNH_VERSIONS } from '$lib/data/versions';
-  import { writable } from 'svelte/store';
-  import type { VersionId } from '$lib/tweak';
 
   let prevText = '';
   let newText = '';
   let filePath = '.minecraft/config/filename.txt';
-  const selectedVersion = writable<VersionId>(GTNH_VERSIONS[0].id);
   let computedText = '';
 
   function computePatch(prevText: string, newText: string): string {
     return createPatch(filePath, prevText, newText);
-  }
-
-  async function loadFile(filePath: string, version: string): Promise<string> {
-    try {
-      const url = `gtnh/${version}/${filePath.slice('.minecraft/'.length)}`;
-      const response = await fetch(url);
-      if (!response.ok) throw new Error(`Failed to fetch ${url}: ${response.statusText}`);
-      return await response.text();
-    } catch (e) {
-      alert(`Failed to load file ${filePath}: ${e}`);
-      return 'error';
-    }
   }
 </script>
 
@@ -40,15 +24,6 @@
     <p>Computed</p>
     <label for="file-path-input">File path:</label>
     <input id="file-path-input" bind:value={filePath} />
-    <div class="ver-select">
-      <label for="version-select">Version:</label>
-      <select id="version-select" bind:value={$selectedVersion}>
-        {#each GTNH_VERSIONS as v (v.id)}
-          <option value={v.id}>{v.id} ({v.date})</option>
-        {/each}
-      </select>
-    </div>
-    <button on:click={async () => (prevText = await loadFile(filePath, $selectedVersion))}>Load</button>
     <button on:click={() => (computedText = computePatch(prevText, newText))}>Compute</button>
     <button
       on:click={() => {
