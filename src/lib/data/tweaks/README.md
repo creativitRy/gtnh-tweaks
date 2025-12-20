@@ -6,7 +6,7 @@ tweakId must be unique even across groups.
 
 ## Creating patches
 
-Check out https://gtnh-tweaks.ctry.dev/compute-patch/
+Check out https://gtnh-tweaks.ctry.dev/compute-patch
 
 ## Breaking Changes
 
