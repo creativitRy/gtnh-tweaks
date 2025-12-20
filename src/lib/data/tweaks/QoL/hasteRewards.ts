@@ -5,7 +5,7 @@ import { gtnhVersionIds } from '$lib/data/versions';
 export default defineTweak({
   name: 'Haste Potion Early Quest Rewards',
   description:
-    'This adds haste potions to early game quest rewards. Players cannot recharge the potion until later, but this will help remove the tedium of mining.',
+    'This adds haste potions to some early game quest rewards. These are temporary since players cannot recharge the potion until way later, but they will help remove the tedium of early game mining.',
   icon: { kind: 'emoji', value: '🏃🏽‍♂️' },
   supportedVersions: [gtnhVersionIds.v2_8_1, gtnhVersionIds.v2_8_2, gtnhVersionIds.v2_8_3],
   followsStargateRules: false,
