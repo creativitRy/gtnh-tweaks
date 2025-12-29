@@ -6,7 +6,13 @@ export default defineTweak({
   name: 'Teleport Commands (FTB Essentials)',
   description: 'Enable teleport commands like home and tpa.',
   icon: { kind: 'emoji', value: '🌀' },
-  supportedVersions: [gtnhVersionIds.v2_8_0, gtnhVersionIds.v2_8_1, gtnhVersionIds.v2_8_2, gtnhVersionIds.v2_8_3],
+  supportedVersions: [
+    gtnhVersionIds.v2_8_0,
+    gtnhVersionIds.v2_8_1,
+    gtnhVersionIds.v2_8_2,
+    gtnhVersionIds.v2_8_3,
+    gtnhVersionIds.v2_8_4,
+  ],
   followsStargateRules: cfg => !cfg.back || +cfg.backCooldown >= 30,
   configs: {
     back: {

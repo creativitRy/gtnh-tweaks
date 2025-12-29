@@ -6,7 +6,13 @@ export default defineTweak({
   name: 'Server MOTD',
   description: 'Enables message of the day. This will be displayed when player joins the server.',
   icon: { kind: 'emoji', value: '💬' },
-  supportedVersions: [gtnhVersionIds.v2_8_0, gtnhVersionIds.v2_8_1, gtnhVersionIds.v2_8_2, gtnhVersionIds.v2_8_3],
+  supportedVersions: [
+    gtnhVersionIds.v2_8_0,
+    gtnhVersionIds.v2_8_1,
+    gtnhVersionIds.v2_8_2,
+    gtnhVersionIds.v2_8_3,
+    gtnhVersionIds.v2_8_4,
+  ],
   followsStargateRules: true,
   configs: {
     msg: {

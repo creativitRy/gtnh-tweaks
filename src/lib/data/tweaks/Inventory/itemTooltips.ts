@@ -7,7 +7,13 @@ export default defineTweak({
   description:
     'Adds detailed tooltips to itmes on hover, such as burn time, registry name, etc. Some are only visible after pressing F3+H.',
   icon: { kind: 'emoji', value: '💡' },
-  supportedVersions: [gtnhVersionIds.v2_8_0, gtnhVersionIds.v2_8_1, gtnhVersionIds.v2_8_2, gtnhVersionIds.v2_8_3],
+  supportedVersions: [
+    gtnhVersionIds.v2_8_0,
+    gtnhVersionIds.v2_8_1,
+    gtnhVersionIds.v2_8_2,
+    gtnhVersionIds.v2_8_3,
+    gtnhVersionIds.v2_8_4,
+  ],
   followsStargateRules: true,
   onDownload: async (config, downloadCtx) => {
     await downloadCtx.patchFile(

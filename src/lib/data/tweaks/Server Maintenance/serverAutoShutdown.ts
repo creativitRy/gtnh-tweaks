@@ -6,7 +6,13 @@ export default defineTweak({
   name: 'Server Auto Shutdown',
   description: 'Server will automatically shut down once per day. Fixes memory leaks and stuff.',
   icon: { kind: 'emoji', value: '🔌' },
-  supportedVersions: [gtnhVersionIds.v2_8_0, gtnhVersionIds.v2_8_1, gtnhVersionIds.v2_8_2, gtnhVersionIds.v2_8_3],
+  supportedVersions: [
+    gtnhVersionIds.v2_8_0,
+    gtnhVersionIds.v2_8_1,
+    gtnhVersionIds.v2_8_2,
+    gtnhVersionIds.v2_8_3,
+    gtnhVersionIds.v2_8_4,
+  ],
   followsStargateRules: true,
   configs: {
     time: {

@@ -7,7 +7,7 @@ export default defineTweak({
   description:
     'This adds a new quest at the beginning hour that tells you to build at a high humidity biome and gives you a backpack!',
   icon: { kind: 'emoji', value: '🎒' },
-  supportedVersions: [gtnhVersionIds.v2_8_3],
+  supportedVersions: [gtnhVersionIds.v2_8_3, gtnhVersionIds.v2_8_4],
   followsStargateRules: false,
   onDownload: async (config, downloadCtx) => {
     downloadCtx.createRawFile(

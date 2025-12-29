@@ -7,7 +7,7 @@ export default defineTweak({
   description:
     'This adds haste potions to some early game quest rewards. These are temporary since players cannot recharge the potion until way later, but they will help remove the tedium of early game mining.',
   icon: { kind: 'emoji', value: '🏃🏽‍♂️' },
-  supportedVersions: [gtnhVersionIds.v2_8_1, gtnhVersionIds.v2_8_2, gtnhVersionIds.v2_8_3],
+  supportedVersions: [gtnhVersionIds.v2_8_1, gtnhVersionIds.v2_8_2, gtnhVersionIds.v2_8_3, gtnhVersionIds.v2_8_4],
   followsStargateRules: false,
   onDownload: async (config, downloadCtx) => {
     await downloadCtx.patchFile(
