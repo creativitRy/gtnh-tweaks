@@ -6,7 +6,8 @@ tweakId must be unique even across groups.
 
 ## Creating patches
 
-Check out https://gtnh-tweaks.ctry.dev/compute-patch
+Config files can be found in https://github.com/GTNewHorizons/GT-New-Horizons-Modpack/tree/master/config.
+Also check out https://gtnh-tweaks.ctry.dev/compute-patch
 
 ## Breaking Changes
 

@@ -22,7 +22,7 @@ export default defineTweak({
     },
     home: {
       type: 'number',
-      label: 'home (number of homes, 0 to disable)',
+      label: 'number of homes (0 to disable)',
       default: 10,
       min: 0,
       max: 2048,
