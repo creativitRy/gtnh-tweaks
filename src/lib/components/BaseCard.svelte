@@ -1,5 +1,7 @@
 <script lang="ts">
   import type { TweakIcon } from '$lib/tweak';
+  import Icon from '@iconify/svelte';
+
   export let icon: TweakIcon;
   export let name: string;
   export let description: string = '';
@@ -8,6 +10,7 @@
   export let statusClass: string = '';
   export let selected: boolean = false;
   export let hasConfigs: boolean = false;
+  export let sourceLink: string | undefined = undefined;
 
   $: sgStateDisplay = sgState === true ? 'Yes' : sgState === false ? 'No' : 'Depends';
 </script>
@@ -29,6 +32,11 @@
             <span class="cfg-icon" title="Has configuration">⚙️</span>
           {/if}
         </h3>
+        {#if sourceLink}
+          <a href={sourceLink} target="_blank">
+            <Icon icon="material-symbols:code" width="24" height="24" />
+          </a>
+        {/if}
         <span class="sg-badge" data-status={sgStateDisplay}>SG: {sgStateDisplay}</span>
         <slot name="header-actions" />
       </div>
@@ -46,6 +54,7 @@
 
 <style lang="scss">
   @use '$lib/styles/mixins' as mixins;
+
   .card {
     @include mixins.card-pane();
     @include mixins.card-accent(var(--border));
@@ -56,9 +65,11 @@
       @include mixins.card-accent(var(--error));
       background: color-mix(in srgb, var(--error) 8%, var(--surface));
     }
+
     &.warning {
       @include mixins.card-accent(var(--warning));
     }
+
     &.ok {
       @include mixins.card-accent(var(--success));
     }
@@ -103,9 +114,11 @@
         &[data-status='Yes'] {
           color: var(--success);
         }
+
         &[data-status='No'] {
           color: var(--error);
         }
+
         &[data-status='Depends'] {
           color: var(--warning);
         }

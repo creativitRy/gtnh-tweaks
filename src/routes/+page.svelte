@@ -213,7 +213,7 @@
                   {#each [...groupTweaks].sort((a, b) => a.name
                       .toLowerCase()
                       .localeCompare(b.name.toLowerCase())) as tweak (tweak.id)}
-                    <ConfigCard {tweak} />
+                    <ConfigCard {tweak} sourceLinkPrefix={data.props.repository} />
                   {/each}
                 </div>
               {/if}

@@ -4,6 +4,7 @@
   import BaseCard from '$lib/components/BaseCard.svelte';
 
   export let tweak: TweakDef;
+  export let sourceLinkPrefix: string;
 
   $: config = $selections[tweak.id];
   $: errors = $validationState[tweak.id] || [];
@@ -11,6 +12,7 @@
     typeof tweak.followsStargateRules === 'boolean' ? tweak.followsStargateRules : tweak.followsStargateRules(config);
 
   $: statusClass = errors.length > 0 ? 'error' : !sgState && !$stargateFilter ? 'warning' : 'ok';
+  $: sourceLink = `${sourceLinkPrefix}/blob/main/src/lib/data/tweaks/${tweak.group}/${tweak.id}.ts`;
 </script>
 
 <BaseCard
@@ -20,6 +22,7 @@
   {sgState}
   {statusClass}
   hasConfigs={!!tweak.configs}
+  {sourceLink}
 >
   <button
     slot="header-actions"
