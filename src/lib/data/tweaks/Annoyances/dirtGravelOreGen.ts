@@ -13,6 +13,7 @@ export default defineTweak({
     gtnhVersionIds.v2_8_2,
     gtnhVersionIds.v2_8_3,
     gtnhVersionIds.v2_8_4,
+    gtnhVersionIds.v2_9_0_rc_2,
   ],
   followsStargateRules: true,
   onDownload: async (config, downloadCtx) => {
@@ -36,7 +37,6 @@ export default defineTweak({
      }
  
      endasteroids {
-         # The maximum size for the end asteroids. [range: -2147483648 ~ 2147483647, default: 200]
 `,
     );
   },

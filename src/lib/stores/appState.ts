@@ -1,6 +1,6 @@
 import { derived, get, writable } from 'svelte/store';
 import { ALL_TWEAKS } from '$lib/data/tweaks';
-import { GTNH_VERSIONS } from '$lib/data/versions';
+import { DEFAULT_VERSION_ID } from '$lib/data/versions';
 import {
   type ConfigValue,
   DownloadContext,
@@ -18,7 +18,7 @@ import { tick } from 'svelte';
 import brotliPromise from 'brotli-wasm';
 import { base64ToBytes, bytesToBase64 } from 'byte-base64';
 
-export const selectedVersion = writable<VersionId>(GTNH_VERSIONS[0].id);
+export const selectedVersion = writable<VersionId>(DEFAULT_VERSION_ID);
 export const stargateFilter = writable<boolean>(false);
 export const selections = writable<SelectedTweaksMap>({});
 export const presetName = writable<string>('custom');

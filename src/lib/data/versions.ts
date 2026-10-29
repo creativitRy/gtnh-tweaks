@@ -1,4 +1,5 @@
 export const gtnhVersionIds = {
+  v2_9_0_rc_2: '2.9.0-RC-2',
   v2_8_4: '2.8.4',
   v2_8_3: '2.8.3',
   v2_8_2: '2.8.2',
@@ -6,13 +7,28 @@ export const gtnhVersionIds = {
   v2_8_0: '2.8.0',
 };
 
+export type GtnhVersion = {
+  id: string;
+  date: string;
+  gitCommit: string;
+  preview?: boolean;
+};
+
 // gitCommit is to https://github.com/GTNewHorizons/GT-New-Horizons-Modpack/releases
-export const GTNH_VERSIONS = [
+export const GTNH_VERSIONS: GtnhVersion[] = [
+  {
+    id: gtnhVersionIds.v2_9_0_rc_2,
+    date: '2026-10-04',
+    gitCommit: '76e9d6c22ffdb317324a3baf562c05796663ad39',
+    preview: true,
+  },
   { id: gtnhVersionIds.v2_8_4, date: '2025-12-23', gitCommit: '7cc3067925d133e9bd4051675fff5ce7576317c2' },
   { id: gtnhVersionIds.v2_8_3, date: '2025-12-12', gitCommit: 'e7c5b9805dd2cedb7c56bf2b55d9eb44fc6224d0' },
   { id: gtnhVersionIds.v2_8_2, date: '2025-12-07', gitCommit: 'ef9f08003e5f0348321489bd49474cb305f5698b' },
   { id: gtnhVersionIds.v2_8_1, date: '2025-10-20', gitCommit: 'cda79d034fee2063811fe4c1a46320ad44fc8f02' },
   { id: gtnhVersionIds.v2_8_0, date: '2025-09-27', gitCommit: 'c3ba07ccba1b772777f6fc57e53bb70c8547adb7' },
 ];
+
+export const DEFAULT_VERSION_ID = gtnhVersionIds.v2_8_4;
 
 export const GTNH_VERSIONS_LOOKUP = new Map(GTNH_VERSIONS.map(v => [v.id, v]));

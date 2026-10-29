@@ -1,4 +1,5 @@
 import { defineTweak } from '$lib/tweak';
+import { gtnhVersionIds } from '$lib/data/versions';
 
 // noinspection JSUnusedGlobalSymbols
 export default defineTweak({
@@ -9,7 +10,13 @@ export default defineTweak({
     src: 'https://github.com/ABKQPO/Modernity-GTNH/blob/main/pack.png?raw=true',
     alt: 'modernity-gtnh',
   },
-  supportedVersions: 'all',
+  supportedVersions: [
+    gtnhVersionIds.v2_8_0,
+    gtnhVersionIds.v2_8_1,
+    gtnhVersionIds.v2_8_2,
+    gtnhVersionIds.v2_8_3,
+    gtnhVersionIds.v2_8_4,
+  ],
   followsStargateRules: true,
   filesToDownload: () => [
     {

@@ -13,7 +13,7 @@
     zipProgress,
   } from '$lib/stores/appState';
   import { browser } from '$app/environment';
-  import { GTNH_VERSIONS } from '$lib/data/versions';
+  import { GTNH_VERSIONS, GTNH_VERSIONS_LOOKUP } from '$lib/data/versions';
   import TweakCard from '$lib/components/TweakCard.svelte';
   import ConfigCard from '$lib/components/ConfigCard.svelte';
   import { ALL_TWEAKS } from '$lib/data/tweaks';
@@ -95,6 +95,8 @@
       .values(),
   ].sort((a, b) => a.localeCompare(b, undefined, { numeric: true, sensitivity: 'base' }));
 
+  $: isPreviewVersion = GTNH_VERSIONS_LOOKUP.get($selectedVersion)?.preview === true;
+
   onMount(async () => {
     if (!browser) return;
     await loadFromUrl();
@@ -112,6 +114,9 @@
       <div class="controls">
         <div class="ver-select">
           <label for="version-select">Version:</label>
+          {#if isPreviewVersion}
+            <span class="preview-badge">PREVIEW VERSION</span>
+          {/if}
           <select id="version-select" bind:value={$selectedVersion}>
             {#each GTNH_VERSIONS as v (v.id)}
               <option value={v.id}>{v.id} ({v.date})</option>
@@ -307,6 +312,21 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+  }
+
+  .ver-select {
+    display: flex;
+    align-items: center;
+
+    .preview-badge {
+      margin-right: 0.5rem;
+      padding: 0.1rem 0.4rem;
+      border: 1px solid var(--error);
+      color: var(--error);
+      font-size: 0.75rem;
+      font-weight: bold;
+      white-space: nowrap;
+    }
   }
 
   .grid {

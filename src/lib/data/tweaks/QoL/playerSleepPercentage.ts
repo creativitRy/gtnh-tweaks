@@ -14,6 +14,7 @@ export default defineTweak({
     gtnhVersionIds.v2_8_2,
     gtnhVersionIds.v2_8_3,
     gtnhVersionIds.v2_8_4,
+    gtnhVersionIds.v2_9_0_rc_2,
   ],
   followsStargateRules: true,
   configs: {
@@ -27,9 +28,25 @@ export default defineTweak({
     },
   },
   onDownload: async (config, downloadCtx) => {
-    await downloadCtx.patchFile(
-      '.minecraft/serverutilities/serverutilities.cfg',
-      `Index: .minecraft/serverutilities/serverutilities.cfg
+    const patch =
+      downloadCtx.version === gtnhVersionIds.v2_9_0_rc_2
+        ? `Index: .minecraft/serverutilities/serverutilities.cfg
+===================================================================
+--- .minecraft/serverutilities/serverutilities.cfg
++++ .minecraft/serverutilities/serverutilities.cfg
+@@ -362,9 +362,9 @@
+     # 2 - Thunderstorm [range: -1 ~ 2, default: -1]
+     I:forced_spawn_dimension_weather=-1
+ 
+     # Default Player Sleeping. This is only what the gamerule is initially set to, not the active value that is used. [range: 0 ~ 100, default: 50]
+-    I:player_sleeping_percentage=50
++    I:player_sleeping_percentage=${config.percentage}
+ 
+     # Max /rtp distance [range: 4.9E-324 ~ 1.7976931348623157E308, default: 100000.0]
+     D:rtp_max_distance=100000.0
+ 
+`
+        : `Index: .minecraft/serverutilities/serverutilities.cfg
 ===================================================================
 --- .minecraft/serverutilities/serverutilities.cfg
 +++ .minecraft/serverutilities/serverutilities.cfg
@@ -55,7 +72,7 @@ export default defineTweak({
      # Max /rtp distance [range: 4.9E-324 ~ 1.7976931348623157E308, default: 100000.0]
      D:rtp_max_distance=100000.0
  
-`,
-    );
+`;
+    await downloadCtx.patchFile('.minecraft/serverutilities/serverutilities.cfg', patch);
   },
 });

@@ -12,6 +12,7 @@ export default defineTweak({
     gtnhVersionIds.v2_8_2,
     gtnhVersionIds.v2_8_3,
     gtnhVersionIds.v2_8_4,
+    gtnhVersionIds.v2_9_0_rc_2,
   ],
   followsStargateRules: true,
   configs: {
@@ -102,8 +103,6 @@ export default defineTweak({
 +    S:enable_explosions=DEFAULT
  
      # Enabled Player Sleeping Percentage to skip night. Use the gamerule playersSleepingPercentage to set the percentage. [default: false]
-     B:enable_player_sleeping_percentage=false
- 
 `,
       );
     }
