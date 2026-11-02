@@ -1,4 +1,4 @@
-import { defineTweak } from '$lib/tweak';
+import { defineTweak } from '@gtnh-tweaks/core';
 
 // noinspection JSUnusedGlobalSymbols
 export default defineTweak({

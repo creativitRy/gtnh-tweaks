@@ -1,16 +1,16 @@
 import { derived, get, writable } from 'svelte/store';
 import { ALL_TWEAKS } from '$lib/data/tweaks';
-import { DEFAULT_VERSION_ID } from '$lib/data/versions';
+import { FrontendDownloadContext } from '$lib/frontendDownloadContext';
 import {
   type ConfigValue,
-  DownloadContext,
+  DEFAULT_VERSION_ID,
   type SelectedTweaksMap,
   supportsVersion,
   type TweakConfig,
   type TweakDef,
   type TweakId,
   type VersionId,
-} from '$lib/tweak';
+} from '@gtnh-tweaks/core';
 import { browser } from '$app/environment';
 import { saveAs } from 'file-saver';
 import { replaceState } from '$app/navigation';
@@ -158,7 +158,7 @@ export async function loadFromUrl() {
 
 export async function download(version: string, selections: SelectedTweaksMap) {
   const PART1_PROGRESS = 0.7;
-  const downloadCtx = new DownloadContext(version, selections, ALL_TWEAKS);
+  const downloadCtx = new FrontendDownloadContext(version, selections, ALL_TWEAKS);
   try {
     zipProgress.set(0);
 

@@ -4,6 +4,7 @@
   "version": "0.0.1",
   "repository": "https://github.com/creativitRy/gtnh-tweaks",
   "workspaces": [
+    "core",
     "scripts/*"
   ],
   "type": "module",
@@ -12,7 +13,7 @@
     "build": "vite build",
     "preview": "vite preview",
     "prepare": "svelte-kit sync || echo ''",
-    "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
+    "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json && tsc --noEmit -p core",
     "check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
     "format": "prettier --write .",
     "lint": "prettier --check . && eslint ."
@@ -45,6 +46,7 @@
     "vite": "^7.2.6"
   },
   "dependencies": {
+    "@gtnh-tweaks/core": "workspace:*",
     "@types/file-saver": "^2.0.7"
   }
 }

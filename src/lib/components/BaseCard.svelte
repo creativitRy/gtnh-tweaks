@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { TweakIcon } from '$lib/tweak';
+  import type { TweakIcon } from '@gtnh-tweaks/core';
   import Icon from '@iconify/svelte';
 
   export let icon: TweakIcon;

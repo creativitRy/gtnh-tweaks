@@ -1,6 +1,5 @@
-import { defineTweak } from '$lib/tweak';
-import { gtnhVersionIds } from '$lib/data/versions';
-import ae2CraftAmount from '$lib/assets/ae2CraftAmount.png';
+import { defineTweak, gtnhVersionIds } from '@gtnh-tweaks/core';
+import ae2CraftAmount from '../../../assets/ae2CraftAmount.png';
 
 // noinspection JSUnusedGlobalSymbols
 export default defineTweak({

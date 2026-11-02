@@ -3,7 +3,15 @@ import { defineConfig } from 'vite';
 
 export default defineConfig({
   plugins: [sveltekit()],
+  server: {
+    fs: {
+      allow: ['core'],
+    },
+  },
   optimizeDeps: {
-    exclude: ['brotli-wasm'],
+    exclude: ['brotli-wasm', '@gtnh-tweaks/core'],
+  },
+  ssr: {
+    noExternal: ['@gtnh-tweaks/core'],
   },
 });

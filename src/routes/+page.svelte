@@ -13,11 +13,11 @@
     zipProgress,
   } from '$lib/stores/appState';
   import { browser } from '$app/environment';
-  import { GTNH_VERSIONS, GTNH_VERSIONS_LOOKUP } from '$lib/data/versions';
+  import { GTNH_VERSIONS, GTNH_VERSIONS_LOOKUP } from '@gtnh-tweaks/core';
   import TweakCard from '$lib/components/TweakCard.svelte';
   import ConfigCard from '$lib/components/ConfigCard.svelte';
   import { ALL_TWEAKS } from '$lib/data/tweaks';
-  import type { ModToDownload, TweakDef } from '$lib/tweak';
+  import type { ModToDownload, TweakDef } from '@gtnh-tweaks/core';
   import Icon from '@iconify/svelte';
   import type { PageServerData } from './$types';
 

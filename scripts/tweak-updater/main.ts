@@ -1,9 +1,8 @@
 import { program } from 'commander';
-import { GTNH_VERSIONS, GTNH_VERSIONS_LOOKUP } from '../../src/lib/data/versions';
+import { getGtnhConfigHistoryUrl, GTNH_VERSIONS, GTNH_VERSIONS_LOOKUP, tryDownloadGtnhConfig } from '@gtnh-tweaks/core';
 import { Glob } from 'bun';
 import type { Node } from 'ts-morph';
 import { Project, ts } from 'ts-morph';
-import { getGtnhConfigHistoryUrl, tryDownloadGtnhConfig } from '../../src/lib/githubDownloader';
 import { applyPatch } from 'diff';
 import { confirm, select } from '@inquirer/prompts';
 import SyntaxKind = ts.SyntaxKind;

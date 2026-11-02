@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { TweakDef } from '$lib/tweak';
+  import type { TweakDef } from '@gtnh-tweaks/core';
   import { selections, validationState, stargateFilter, updateConfig, toggleTweak } from '$lib/stores/appState';
   import BaseCard from '$lib/components/BaseCard.svelte';
 
