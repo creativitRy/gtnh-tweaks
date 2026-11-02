@@ -6,7 +6,7 @@ export default defineTweak({
   description: 'Configure how many blocks can be automatically placed and how fast they are placed.',
   icon: {
     kind: 'image',
-    src: 'https://static.wikitide.net/gtnhwiki/thumb/d/d1/MultiblockStructureHologramProjector.png/300px-MultiblockStructureHologramProjector.png',
+    src: 'https://static.wikitide.net/gtnhwiki/f/f9/MSHP.png',
     alt: 'Hologram Projector',
   },
   supportedVersions: [
