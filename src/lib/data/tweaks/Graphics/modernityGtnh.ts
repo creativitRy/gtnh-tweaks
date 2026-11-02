@@ -6,7 +6,7 @@ export default defineTweak({
   description: 'Resourcepack for modern textures. You need to select this resource pack manually ingame.',
   icon: {
     kind: 'image',
-    src: 'https://github.com/ABKQPO/Modernity-GTNH/blob/main/pack.png?raw=true',
+    src: 'https://static.wikitide.net/gtnhwiki/thumb/6/61/Pack-ABKQPO.png/64px-Pack-ABKQPO.png',
     alt: 'modernity-gtnh',
   },
   supportedVersions: [
