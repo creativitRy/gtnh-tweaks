@@ -22,7 +22,7 @@ export default defineTweak({
 ===================================================================
 --- .minecraft/config/GregTech/WorldGeneration.cfg
 +++ .minecraft/config/GregTech/WorldGeneration.cfg
-@@ -18,12 +18,12 @@
+@@ -18,11 +18,11 @@
          # if true, enables red granite ore gen. [default: true]
          B:generateRedGraniteOres=true
  

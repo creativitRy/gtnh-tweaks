@@ -24,6 +24,7 @@ export default defineTweak({
       type: 'number',
       label: 'number of homes (0 to disable)',
       default: 10,
+      toVerify: [0],
       min: 0,
       max: 2048,
       step: 1,

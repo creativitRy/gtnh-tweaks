@@ -27,6 +27,7 @@ export default defineTweak({
       type: 'number',
       label: 'Chunk Loading (max loaded chunks, 0 to disable)',
       default: 1000,
+      toVerify: [0],
       min: 0,
       max: 1000000,
       step: 1,
@@ -93,7 +94,7 @@ export default defineTweak({
 ===================================================================
 --- .minecraft/serverutilities/serverutilities.cfg
 +++ .minecraft/serverutilities/serverutilities.cfg
-@@ -333,9 +333,9 @@
+@@ -333,7 +333,7 @@
      # TRUE = Explosions on for everyone.
      # FALSE = Explosions disabled for everyone.
      # Possible values: [TRUE, FALSE, DEFAULT]

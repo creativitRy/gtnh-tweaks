@@ -18,12 +18,16 @@ export type SliderConfig = {
   min: number;
   max: number;
   step: number;
+  /** Values the validator runs in addition to `default`. Defaults to only `default`. */
+  toVerify?: number[];
 };
 
 export type TextBoxConfig = {
   type: 'textbox';
   label: string;
   default: string;
+  /** Values the validator runs in addition to `default`. Defaults to only `default`. */
+  toVerify?: string[];
 };
 
 export type NumberBoxConfig = {
@@ -33,6 +37,8 @@ export type NumberBoxConfig = {
   min: number;
   max: number;
   step: number;
+  /** Values the validator runs in addition to `default`. Defaults to only `default`. */
+  toVerify?: number[];
 };
 
 export type SelectConfig = {

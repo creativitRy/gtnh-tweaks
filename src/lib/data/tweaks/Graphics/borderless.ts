@@ -21,7 +21,7 @@ export default defineTweak({
 ===================================================================
 --- .minecraft/config/lwjgl3ify.cfg
 +++ .minecraft/config/lwjgl3ify.cfg
-@@ -91,9 +91,9 @@
+@@ -91,8 +91,8 @@
      # Changes the application ID used for categorizing windows in window managers, saving per-app settings etc. [default: com.gtnewhorizons.Lwjgl3ifyMinecraft]
      S:appId=com.gtnewhorizons.Lwjgl3ifyMinecraft
  
