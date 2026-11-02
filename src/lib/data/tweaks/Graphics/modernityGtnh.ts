@@ -10,7 +10,7 @@ export default defineTweak({
     alt: 'modernity-gtnh',
   },
   supportedVersions: [
-    gtnhVersionIds.v2_9_0_rc_2,
+    gtnhVersionIds.v2_9_0,
     gtnhVersionIds.v2_8_0,
     gtnhVersionIds.v2_8_1,
     gtnhVersionIds.v2_8_2,
@@ -19,7 +19,7 @@ export default defineTweak({
   ],
   followsStargateRules: true,
   filesToDownload: version => {
-    if (version === gtnhVersionIds.v2_9_0_rc_2) {
+    if (version === gtnhVersionIds.v2_9_0) {
       return [
         {
           filename: '.minecraft/resourcepacks/Modernity-2.9.x-fa35a3d.zip',

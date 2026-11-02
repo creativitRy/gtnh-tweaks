@@ -22,7 +22,7 @@ export default defineTweak({
     gtnhVersionIds.v2_8_2,
     gtnhVersionIds.v2_8_3,
     gtnhVersionIds.v2_8_4,
-    gtnhVersionIds.v2_9_0_rc_2,
+    gtnhVersionIds.v2_9_0,
   ],
   followsStargateRules: config => parseInt(config.radius as string) <= 32,
   onDownload: async (config, downloadCtx) => {

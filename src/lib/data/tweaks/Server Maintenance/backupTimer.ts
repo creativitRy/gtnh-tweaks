@@ -11,7 +11,7 @@ export default defineTweak({
     gtnhVersionIds.v2_8_2,
     gtnhVersionIds.v2_8_3,
     gtnhVersionIds.v2_8_4,
-    gtnhVersionIds.v2_9_0_rc_2,
+    gtnhVersionIds.v2_9_0,
   ],
   followsStargateRules: true,
   configs: {
@@ -25,9 +25,19 @@ export default defineTweak({
     },
   },
   onDownload: async (config, downloadCtx) => {
-    await downloadCtx.patchFile(
-      '.minecraft/serverutilities/serverutilities.cfg',
-      `Index: .minecraft/serverutilities/serverutilities.cfg
+    const patch =
+      downloadCtx.version === gtnhVersionIds.v2_9_0
+        ? `Index: .minecraft/serverutilities/serverutilities.cfg
+===================================================================
+--- .minecraft/serverutilities/serverutilities.cfg
++++ .minecraft/serverutilities/serverutilities.cfg
+@@ -56,3 +56,3 @@
+-    S:backup_timer=30m
++    S:backup_timer=${Number(config.timer) * 60}m
+ 
+     # Number of backup files to keep before deleting old ones. Always preserves the latest eligible backup per world. Ignored when retention_policy is nonempty. [range: 1 ~ 2147483647, default: 12]
+`
+        : `Index: .minecraft/serverutilities/serverutilities.cfg
 ===================================================================
 --- .minecraft/serverutilities/serverutilities.cfg
 +++ .minecraft/serverutilities/serverutilities.cfg
@@ -42,7 +52,7 @@ export default defineTweak({
      # Number of backup files to keep before deleting old ones. [range: 1 ~ 2147483647, default: 12]
      I:backups_to_keep=12
  
-`,
-    );
+`;
+    await downloadCtx.patchFile('.minecraft/serverutilities/serverutilities.cfg', patch);
   },
 });

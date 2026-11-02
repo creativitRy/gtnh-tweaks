@@ -11,12 +11,12 @@ export default defineTweak({
     gtnhVersionIds.v2_8_2,
     gtnhVersionIds.v2_8_3,
     gtnhVersionIds.v2_8_4,
-    gtnhVersionIds.v2_9_0_rc_2,
+    gtnhVersionIds.v2_9_0,
   ],
   followsStargateRules: true,
   onDownload: async (config, downloadCtx) => {
     const patch =
-      downloadCtx.version === gtnhVersionIds.v2_9_0_rc_2
+      downloadCtx.version === gtnhVersionIds.v2_9_0
         ? `Index: .minecraft/config/lwjgl3ify.cfg
 ===================================================================
 --- .minecraft/config/lwjgl3ify.cfg

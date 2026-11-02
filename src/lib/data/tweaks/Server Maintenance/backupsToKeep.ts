@@ -11,7 +11,7 @@ export default defineTweak({
     gtnhVersionIds.v2_8_2,
     gtnhVersionIds.v2_8_3,
     gtnhVersionIds.v2_8_4,
-    gtnhVersionIds.v2_9_0_rc_2,
+    gtnhVersionIds.v2_9_0,
   ],
   followsStargateRules: true,
   configs: {
@@ -25,9 +25,19 @@ export default defineTweak({
     },
   },
   onDownload: async (config, downloadCtx) => {
-    await downloadCtx.patchFile(
-      '.minecraft/serverutilities/serverutilities.cfg',
-      `Index: .minecraft/serverutilities/serverutilities.cfg
+    const patch =
+      downloadCtx.version === gtnhVersionIds.v2_9_0
+        ? `Index: .minecraft/serverutilities/serverutilities.cfg
+===================================================================
+--- .minecraft/serverutilities/serverutilities.cfg
++++ .minecraft/serverutilities/serverutilities.cfg
+@@ -59,3 +59,3 @@
+-    I:backups_to_keep=12
++    I:backups_to_keep=${config.amount}
+ 
+     # How much the backup file will be compressed. 0 - uncompressed, 1 - best speed, 9 - smallest file size. [range: 0 ~ 9, default: 1]
+`
+        : `Index: .minecraft/serverutilities/serverutilities.cfg
 ===================================================================
 --- .minecraft/serverutilities/serverutilities.cfg
 +++ .minecraft/serverutilities/serverutilities.cfg
@@ -42,7 +52,7 @@ export default defineTweak({
      # How much the backup file will be compressed. 0 - uncompressed, 1 - best speed, 9 - smallest file size. [range: 0 ~ 9, default: 1]
      I:compression_level=1
  
-`,
-    );
+`;
+    await downloadCtx.patchFile('.minecraft/serverutilities/serverutilities.cfg', patch);
   },
 });
