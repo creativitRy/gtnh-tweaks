@@ -10,12 +10,12 @@ export default defineTweak({
     alt: 'modernity-gtnh',
   },
   supportedVersions: [
-    gtnhVersionIds.v2_9_0,
     gtnhVersionIds.v2_8_0,
     gtnhVersionIds.v2_8_1,
     gtnhVersionIds.v2_8_2,
     gtnhVersionIds.v2_8_3,
     gtnhVersionIds.v2_8_4,
+    gtnhVersionIds.v2_9_0,
   ],
   followsStargateRules: true,
   filesToDownload: version => {
