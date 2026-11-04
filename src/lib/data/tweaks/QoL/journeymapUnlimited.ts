@@ -17,7 +17,7 @@ export default defineTweak({
     gtnhVersionIds.v2_8_4,
     gtnhVersionIds.v2_9_0,
   ],
-  followsStargateRules: false,
+  followsStargateRules: true,
   filesToDownload: version => {
     if (version === gtnhVersionIds.v2_9_0) {
       return [
