@@ -136,10 +136,10 @@ export default defineTweak({
       await downloadCtx.patchServerRanks(undefined, 'serverutilities.back.warp', 'true');
     }
     if (+config.home > 0) {
-      await downloadCtx.patchServerRanks(undefined, 'serverutilities.home.max', String(config.home));
-      await downloadCtx.patchServerRanks(undefined, 'serverutilities.home.warmup', `${config.warmup}s`);
-      await downloadCtx.patchServerRanks(undefined, 'serverutilities.home.cooldown', `${config.cooldown}s`);
-      await downloadCtx.patchServerRanks(undefined, 'serverutilities.home.cross_dim', 'true');
+      await downloadCtx.patchServerRanks(undefined, 'serverutilities.homes.max', String(config.home));
+      await downloadCtx.patchServerRanks(undefined, 'serverutilities.homes.warmup', `${config.warmup}s`);
+      await downloadCtx.patchServerRanks(undefined, 'serverutilities.homes.cooldown', `${config.cooldown}s`);
+      await downloadCtx.patchServerRanks(undefined, 'serverutilities.homes.cross_dim', 'true');
     }
     if (config.spawn) {
       await downloadCtx.patchServerRanks(undefined, 'serverutilities.spawn.warmup', `${config.warmup}s`);
