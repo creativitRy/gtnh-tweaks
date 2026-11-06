@@ -9,6 +9,7 @@ export class DownloadContext {
   private readonly createdFiles = new Map<string, string | Blob>();
   private readonly modifiedFiles = new Map<string, string>();
   private readonly deletedFiles = new Set<string>();
+  private serverRanksEnabled = false;
 
   constructor(
     readonly version: string,
@@ -73,6 +74,28 @@ export class DownloadContext {
    * @param value value to set. If undefined, remove the key(s).
    */
   async patchServerRanks(rankName: string | undefined, key: string, value: string | undefined): Promise<void> {
+    if (!this.serverRanksEnabled) {
+      this.serverRanksEnabled = true;
+      await this.patchFile(
+        '.minecraft/serverutilities/serverutilities.cfg',
+        `Index: .minecraft/serverutilities/serverutilities.cfg
+===================================================================
+--- .minecraft/serverutilities/serverutilities.cfg
++++ .minecraft/serverutilities/serverutilities.cfg
+@@ -331,9 +331,9 @@
+ ranks {
+     # Add permissions for commands and allow them to be controlled by ranks. [default: true]
+     B:command_permissions=true
+ 
+     # Enables Ranks. [default: true]
+-    B:enabled=false
++    B:enabled=true
+ 
+     # Adds chat colors/rank-specific syntax. [default: true]
+     B:override_chat=true
+}`,
+      );
+    }
     const filePath = '.minecraft/serverutilities/server/ranks.txt';
     let prevRaw = this.modifiedFiles.get(filePath);
     if (prevRaw === undefined) {

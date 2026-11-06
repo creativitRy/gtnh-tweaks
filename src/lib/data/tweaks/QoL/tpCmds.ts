@@ -152,9 +152,9 @@ export default defineTweak({
       await downloadCtx.patchServerRanks(undefined, 'serverutilities.tpa.cross_dim', 'true');
     }
     if (config.warp) {
-      await downloadCtx.patchServerRanks(undefined, 'serverutilities.warp.warmup', `${config.warmup}s`);
-      await downloadCtx.patchServerRanks(undefined, 'serverutilities.warp.cooldown', `${config.cooldown}s`);
-      await downloadCtx.patchServerRanks(undefined, 'serverutilities.warp.cross_dim', 'true');
+      await downloadCtx.patchServerRanks(undefined, 'serverutilities.warps.warmup', `${config.warmup}s`);
+      await downloadCtx.patchServerRanks(undefined, 'serverutilities.warps.cooldown', `${config.cooldown}s`);
+      await downloadCtx.patchServerRanks(undefined, 'serverutilities.warps.cross_dim', 'true');
     }
   },
 });
